@@ -1,6 +1,7 @@
 package com.wowforum.services;
 
 import com.wowforum.entities.Thread;
+import com.wowforum.exceptions.EntityNotFoundException;
 import com.wowforum.repositories.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ public class ThreadService {
 
     public List<Thread> getThreadsByForumId(UUID forumId) {
         return threadRepository.findAllByForumId(forumId);
+    }
+
+    public Thread getThreadById(UUID id) {
+        return threadRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
     }
 
     public Thread createThread(UUID forumId, Thread thread) {

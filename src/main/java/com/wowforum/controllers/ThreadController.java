@@ -24,6 +24,12 @@ public class ThreadController {
         return ResponseEntity.ok(threads);
     }
 
+    @GetMapping("/threads/{id}")
+    public ResponseEntity<Thread> getThreadById(@PathVariable UUID id) {
+        var thread = threadService.getThreadById(id);
+        return ResponseEntity.ok(thread);
+    }
+
     @PostMapping("/forums/{forumId}/threads")
     public ResponseEntity<Thread> createThread(@PathVariable UUID forumId, @RequestBody Thread thread) {
         var createdThread = threadService.createThread(forumId, thread);
