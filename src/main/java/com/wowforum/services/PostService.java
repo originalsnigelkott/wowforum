@@ -15,11 +15,20 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private ThreadRepository threadRepository;
+
     public List<Post> getPostsByThreadId(UUID threadId) {
         return postRepository.findAllByThreadId(threadId);
     }
 
     public Post getPostById(UUID id) {
         return postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("post", "id"));
+    }
+
+    public Post createPost(UUID threadId, Post post) {
+        var thread = threadRepository.findById(threadId).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
+        post.setThread(thread);
+        return postRepository.save(post);
     }
 }

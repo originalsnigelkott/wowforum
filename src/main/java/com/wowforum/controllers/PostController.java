@@ -13,6 +13,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 public class PostController {
+    private final String ENDPOINT_NAME = "/api/v1/posts/";
+
     @Autowired
     private PostService postService;
 
@@ -26,5 +28,12 @@ public class PostController {
     public ResponseEntity<Post> getPostById(@PathVariable UUID id) {
         var post =  postService.getPostById(id);
         return ResponseEntity.ok(post);
+    }
+
+    @PostMapping("threads/{threadId}/posts")
+    public ResponseEntity<Post> createPost(@PathVariable UUID threadId, @RequestBody Post post) {
+        var createdPost =  postService.createPost(threadId, post);
+        var uri = URI.create(ENDPOINT_NAME + createdPost.getId());
+        return ResponseEntity.created(uri).body(createdPost);
     }
 }
