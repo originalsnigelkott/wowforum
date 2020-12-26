@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -16,6 +17,12 @@ public class ThreadController {
 
     @Autowired
     private ThreadService threadService;
+
+    @GetMapping("/forums/{forumId}/threads")
+    public ResponseEntity<List<Thread>> getThreadsByForumId(@PathVariable UUID forumId) {
+        var threads = threadService.getThreadsByForumId(forumId);
+        return ResponseEntity.ok(threads);
+    }
 
     @PostMapping("/forums/{forumId}/threads")
     public ResponseEntity<Thread> createThread(@PathVariable UUID forumId, @RequestBody Thread thread) {
