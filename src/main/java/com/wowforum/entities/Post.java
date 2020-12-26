@@ -24,9 +24,6 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User creator;
 
-    @Column(name = "thread_id", nullable = false)
-    private UUID threadId;
-
     @Column(name = "content", nullable = false)
     private String content;
 

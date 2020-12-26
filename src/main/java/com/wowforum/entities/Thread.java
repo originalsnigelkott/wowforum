@@ -27,7 +27,7 @@ public class Thread {
     @Column(name = "topic", nullable = false)
     private String topic;
 
-    @OneToMany
-    @JoinColumn(name = "thread_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "thread_id", nullable = false)
     private List<Post> posts;
 }
