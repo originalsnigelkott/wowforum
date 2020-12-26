@@ -18,4 +18,8 @@ public class PostService {
     public List<Post> getPostsByThreadId(UUID threadId) {
         return postRepository.findAllByThreadId(threadId);
     }
+
+    public Post getPostById(UUID id) {
+        return postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("post", "id"));
+    }
 }
