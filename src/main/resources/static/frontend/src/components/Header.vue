@@ -1,6 +1,6 @@
 <template>
   <div class="header row center-xy">
-    <h1>Wow forum</h1>
+    <h1 class="title">Wow forum</h1>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ class Header extends Vue {}
 export default Header;
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .header {
   height: 75px;
   width: 100vw;
@@ -21,6 +21,6 @@ export default Header;
   top: 0;
   right: 0;
   z-index: 999;
-  background-color: grey;
+  background-color: turquoise;
 }
 </style>

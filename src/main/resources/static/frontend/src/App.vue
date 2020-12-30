@@ -24,8 +24,23 @@ export default App;
   box-sizing: border-box;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: hotpink;
+  text-shadow: rgb(255, 184, 220) 0 0 2px;
+}
+
+p {
+  color: hotpink;
+}
+
 main {
   padding-top: 75px;
+  background-color: black;
 }
 
 .row {
