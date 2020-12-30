@@ -1,6 +1,6 @@
 <template>
   <div class="header row center-xy">
-    <h1 class="title">Wow forum</h1>
+    <h1 @click="navigate()" class="title pointer">Wow forum</h1>
   </div>
 </template>
 
@@ -8,7 +8,11 @@
 import { Vue, Component } from "vue-property-decorator";
 
 @Component()
-class Header extends Vue {}
+class Header extends Vue {
+  navigate() {
+    if (this.$route.name != "Home") this.$router.push({ name: "Home" });
+  }
+}
 
 export default Header;
 </script>
@@ -22,5 +26,8 @@ export default Header;
   right: 0;
   z-index: 999;
   background-color: turquoise;
+  .title {
+    padding: 10px;
+  }
 }
 </style>
