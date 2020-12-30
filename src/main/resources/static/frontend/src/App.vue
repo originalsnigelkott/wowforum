@@ -31,7 +31,6 @@ h4,
 h5,
 h6 {
   color: hotpink;
-  text-shadow: rgb(255, 184, 220) 0 0 2px;
 }
 
 p {
@@ -69,5 +68,9 @@ main {
   min-width: 100vw;
   min-height: calc(100vh - 75px);
   padding: 10px 30px;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>
