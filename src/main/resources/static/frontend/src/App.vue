@@ -17,7 +17,7 @@ class App extends Vue {}
 export default App;
 </script>
 
-<style>
+<style lang="scss">
 * {
   margin: 0;
   padding: 0;
@@ -48,5 +48,11 @@ main {
 .center-xy {
   justify-content: center;
   align-items: center;
+}
+
+.view {
+  min-width: 100vw;
+  min-height: calc(100vh - 75px);
+  padding: 10px 30px;
 }
 </style>
