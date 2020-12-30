@@ -4,7 +4,7 @@
       <h3 class="title">Forums</h3>
     </div>
     <div class="forums">
-      <Forum v-for="forum of forums" :key="forum.id" :forum="forum" />
+      <ForumListItem v-for="forum of forums" :key="forum.id" :forum="forum" />
     </div>
   </div>
 </template>
@@ -12,10 +12,10 @@
 <script>
 import { Vue, Component } from "vue-property-decorator";
 import { BASE_URL } from "../../app-strings";
-import Forum from "./Forum";
+import ForumListItem from "./ForumListItem";
 
 @Component({
-  components: { Forum },
+  components: { ForumListItem },
 })
 class ForumList extends Vue {
   forums = [];

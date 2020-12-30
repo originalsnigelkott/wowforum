@@ -26,7 +26,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component()
-class Forum extends Vue {
+class ForumListItem extends Vue {
   @Prop({ required: true })
   forum;
 
@@ -35,7 +35,7 @@ class Forum extends Vue {
   }
 }
 
-export default Forum;
+export default ForumListItem;
 </script>
 
 <style lang="scss" scoped>
