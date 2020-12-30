@@ -27,7 +27,7 @@ class ForumList extends Vue {
       this.forums = forums;
       console.log(this.forums);
     } catch {
-      console.log("Error data.json().");
+      console.log("An error occured while loading the forums.");
     }
   }
 }
@@ -38,18 +38,17 @@ export default ForumList;
 <style lang="scss" scoped>
 .forum-list {
   width: 100%;
-  border: black solid 1px;
+  border: turquoise solid 1px;
   .header {
     width: 100%;
     padding: 10px;
-    border-bottom: black solid 1px;
+    border-bottom: turquoise solid 1px;
     .title {
       font-size: 24px;
-      color: hotpink;
     }
   }
   .forums {
-    padding: 10px;
+    padding: 5px 10px;
   }
 }
 </style>
