@@ -72,5 +72,13 @@ main {
 
 .pointer {
   cursor: pointer;
+  h1, h2, h3, h4, h5, h6 {
+    &:hover {
+      text-shadow: white 0 0 2px;
+    }
+  }
+  &:hover {
+    box-shadow: white 0 0 2px;
+  }
 }
 </style>

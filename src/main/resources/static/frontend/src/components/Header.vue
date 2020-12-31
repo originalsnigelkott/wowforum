@@ -28,6 +28,9 @@ export default Header;
   background-color: turquoise;
   .title {
     padding: 10px;
+    &:hover {
+      box-shadow: none;
+    }
   }
 }
 </style>
