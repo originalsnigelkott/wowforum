@@ -2,7 +2,7 @@
   <div class="view">
     <div class="content">
       <div class="header">
-        <h3 class="title">Forums</h3>
+        <h2 class="title">Forums</h2>
       </div>
       <div class="forum-list">
         <ForumList />

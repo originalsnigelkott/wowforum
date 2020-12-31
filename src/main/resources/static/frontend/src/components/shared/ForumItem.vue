@@ -5,7 +5,7 @@
     @click="canNavigate && navigate()"
   >
     <div class="header">
-      <h4 class="title" :style="styleObject">{{ forum.name }}</h4>
+      <h3 class="title" :style="styleObject">{{ forum.name }}</h3>
       <p class="description">{{ forum.description }}</p>
     </div>
     <div class="threads">
