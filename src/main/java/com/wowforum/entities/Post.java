@@ -33,6 +33,6 @@ public class Post {
     private String content;
 
     @Column(name = "created", nullable = false)
-    private Long timestamp;
+    private Long created;
 
 }
