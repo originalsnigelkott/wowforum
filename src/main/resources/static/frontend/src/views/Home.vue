@@ -1,6 +1,13 @@
 <template>
   <div class="view">
-    <ForumList />
+    <div class="content">
+      <div class="header">
+        <h3 class="title">Forums</h3>
+      </div>
+      <div class="forum-list">
+        <ForumList />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,5 +24,14 @@ export default Home;
 </script>
 
 <style lang="scss" scoped>
-
+.content {
+  border: turquoise solid 1px;
+  .header {
+    padding: 10px;
+    border-bottom: turquoise solid 1px;
+    .title {
+      font-size: 24px;
+    }
+  }
+}
 </style>

@@ -1,10 +1,7 @@
 <template>
   <div class="forum-list">
-    <div class="header">
-      <h3 class="title">Forums</h3>
-    </div>
     <div class="forums">
-      <ForumListItem v-for="forum of forums" :key="forum.id" :forum="forum" />
+      <ForumItem v-for="forum of forums" :key="forum.id" :forum="forum" :fontSize="18" />
     </div>
   </div>
 </template>
@@ -12,10 +9,10 @@
 <script>
 import { Vue, Component } from "vue-property-decorator";
 import { BASE_URL } from "../../app-strings";
-import ForumListItem from "./ForumListItem";
+import ForumItem from "../shared/ForumItem";
 
 @Component({
-  components: { ForumListItem },
+  components: { ForumItem },
 })
 class ForumList extends Vue {
   forums = [];
@@ -27,7 +24,7 @@ class ForumList extends Vue {
       this.forums = forums;
       console.log(this.forums);
     } catch {
-      console.log("An error occured while loading the forums.");
+      console.error("An error occured while loading the forums.");
     }
   }
 }
@@ -37,16 +34,6 @@ export default ForumList;
 
 <style lang="scss" scoped>
 .forum-list {
-  width: 100%;
-  border: turquoise solid 1px;
-  .header {
-    width: 100%;
-    padding: 10px;
-    border-bottom: turquoise solid 1px;
-    .title {
-      font-size: 24px;
-    }
-  }
   .forums {
     padding: 5px 10px;
   }
