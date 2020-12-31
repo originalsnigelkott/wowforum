@@ -1,5 +1,6 @@
 package com.wowforum.controllers;
 
+import com.wowforum.dtos.ForumReadDto;
 import com.wowforum.entities.Forum;
 import com.wowforum.services.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/forums")
@@ -20,15 +22,19 @@ public class ForumController {
     private ForumService forumService;
 
     @GetMapping
-    public ResponseEntity<List<Forum>> getAllForums() {
+    public ResponseEntity<List<ForumReadDto>> getAllForums() {
         var forums = forumService.getAllForums();
-        return ResponseEntity.ok(forums);
+        var dtos = forums.stream()
+                .map(forum -> new ForumReadDto(forum, 3L))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Forum> getForumById(@PathVariable UUID id) {
+    public ResponseEntity<ForumReadDto> getForumById(@PathVariable UUID id) {
         var forum = forumService.getForumById(id);
-        return ResponseEntity.ok(forum);
+        var dto = new ForumReadDto(forum);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
