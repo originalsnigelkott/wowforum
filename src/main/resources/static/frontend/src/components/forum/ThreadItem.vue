@@ -2,7 +2,7 @@
   <div
     class="thread"
     :class="{ pointer: canNavigate }"
-    @click="canNavigate && navigate()"
+    @click.stop="canNavigate && navigate()"
   >
     <div class="header">
       <h4 class="title" :style="styleObject">{{ thread.topic }}</h4>
@@ -27,7 +27,7 @@ class ThreadItem extends Vue {
   }
 
   navigate() {
-    // TODO: Implement navigate method
+    this.$router.push({ name: "Thread", params: { id: this.thread.id } });
   }
 }
 

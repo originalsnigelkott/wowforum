@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home";
 import Forum from "../views/Forum";
+import Thread from "../views/Thread";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/forum/:id",
     name: "Forum",
     component: Forum,
+  },
+  {
+    path: "/thread/:id",
+    name: "Thread",
+    component: Thread,
   },
 ];
 
