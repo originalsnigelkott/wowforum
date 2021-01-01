@@ -23,7 +23,12 @@ public class ThreadService {
     }
 
     public Thread createThread(UUID forumId, Thread thread) {
+        var threadId = UUID.randomUUID();
         thread.setForumId(forumId);
+        thread.setId(threadId);
+        thread.getInitialPost().setThread(thread);
+
         return threadRepository.save(thread);
+
     }
 }
