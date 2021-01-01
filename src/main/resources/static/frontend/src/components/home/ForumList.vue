@@ -22,7 +22,6 @@ class ForumList extends Vue {
     try {
       const forums = await data.json();
       this.forums = forums;
-      console.log(this.forums);
     } catch {
       console.error("An error occured while loading the forums.");
     }
