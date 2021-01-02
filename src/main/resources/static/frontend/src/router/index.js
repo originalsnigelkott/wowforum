@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home";
 import Forum from "../views/Forum";
 import Thread from "../views/Thread";
+import Login from "../views/Login";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/thread/:id",
     name: "Thread",
     component: Thread,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
 ];
 

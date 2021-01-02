@@ -69,4 +69,29 @@ main {
     box-shadow: white 0 0 2px;
   }
 }
+
+input {
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  font-size: 16px;
+  background-color: rgb(85, 85, 85);
+  &:focus {
+    outline: none;
+    box-shadow: hotpink 0 0 2px 2px;
+  }
+}
+
+.btn {
+  cursor: pointer;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: turquoise;
+  &:hover {
+    background-color:rgba(64, 224, 208, 0.938);
+    text-shadow: white 0 0 2px;
+    box-shadow: white 0 0 2px;
+  }
+}
 </style>
