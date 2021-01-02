@@ -11,7 +11,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseThreadDto {
-    private UUID id;
     private String topic;
     private PostReadDto initialPost;
 }

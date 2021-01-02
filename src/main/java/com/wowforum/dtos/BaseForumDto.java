@@ -10,7 +10,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseForumDto {
-    private UUID id;
     private String name;
     private String description;
 }

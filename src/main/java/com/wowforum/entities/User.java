@@ -1,6 +1,7 @@
 package com.wowforum.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,4 +40,14 @@ public class User {
 
     @ManyToMany(mappedBy = "moderators")
     private Set<Forum> moderatedForums;
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

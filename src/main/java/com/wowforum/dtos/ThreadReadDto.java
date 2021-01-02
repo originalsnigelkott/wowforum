@@ -6,16 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThreadReadDto extends BaseThreadDto {
+    private UUID id;
     private List<PostReadDto> posts;
 
     public ThreadReadDto(Thread thread, Long postLimit) {
-        super(thread.getId(), thread.getTopic(), new PostReadDto());
+        super(thread.getTopic(), new PostReadDto());
+        this.id = thread.getId();
         if (postLimit == 1L) {
             var postsSize = thread.getPosts().size();
             var lastPost = thread.getPosts().get(postsSize - 1);

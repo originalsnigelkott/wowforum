@@ -10,7 +10,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BasePostDto {
-    private UUID id;
     private String content;
     private Long created;
     private UserReadDto creator;

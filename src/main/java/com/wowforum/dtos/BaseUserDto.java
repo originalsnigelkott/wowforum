@@ -10,7 +10,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseUserDto {
-    private UUID id;
     private String username;
     private String firstName;
     private String lastName;
