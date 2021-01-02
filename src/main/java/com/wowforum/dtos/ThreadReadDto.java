@@ -17,7 +17,7 @@ public class ThreadReadDto extends BaseThreadDto {
     private List<PostReadDto> posts;
 
     public ThreadReadDto(Thread thread, Long postLimit) {
-        super(thread.getTopic(), new PostReadDto());
+        super(thread.getTopic(), new PostReadDto(thread.getInitialPost()));
         this.id = thread.getId();
         if (postLimit == 1L) {
             var postsSize = thread.getPosts().size();
@@ -25,7 +25,7 @@ public class ThreadReadDto extends BaseThreadDto {
             this.posts = List.of(new PostReadDto(lastPost));
         } else {
             this.posts = thread.getPosts().stream()
-                    .map(post -> new PostReadDto())
+                    .map(post -> new PostReadDto(post))
                     .limit(postLimit)
                     .collect(Collectors.toList());
         }
