@@ -52,10 +52,14 @@ main {
   align-items: center;
 }
 
+.spread {
+  justify-content: space-between;
+}
+
 .view {
   min-width: 100vw;
   min-height: calc(100vh - 75px);
-  padding: 10px 30px;
+  padding: 10px 50px;
 }
 
 .pointer {
