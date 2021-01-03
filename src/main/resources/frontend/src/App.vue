@@ -12,7 +12,11 @@ import Header from "@/components/Header.vue";
 @Component({
   components: { Header },
 })
-class App extends Vue {}
+class App extends Vue {
+  async created() {
+    await this.$store.dispatch("getCurrentUser");
+  }
+}
 
 export default App;
 </script>
@@ -27,6 +31,7 @@ export default App;
 
 main {
   padding-top: 75px;
+  width: 100%;
   background-color: black;
 }
 
@@ -57,7 +62,7 @@ main {
 }
 
 .view {
-  min-width: 100vw;
+  width: 100%;
   min-height: calc(100vh - 75px);
   padding: 10px 50px;
 }
