@@ -49,11 +49,8 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     public User getCurrentUser() {
-        String username;
-        try {
-            username = SecurityContextHolder.getContext().getAuthentication().getName();
-        } catch (Exception e) {
-            e.printStackTrace();
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (username == "anonymousUser") {
             return null;
         }
         var user = userRepository.findByUsername(username).orElse(null);
