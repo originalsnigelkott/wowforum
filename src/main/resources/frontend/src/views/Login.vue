@@ -23,6 +23,7 @@
       <button :disabled="processing" type="submit" class="btn login-btn">
         Login
       </button>
+      <span v-if="error" class="error">{{ error }}</span>
     </form>
   </div>
 </template>
@@ -37,6 +38,7 @@ class Login extends Vue {
   processing = false;
   username = null;
   password = null;
+  error = null;
 
   async login() {
     this.processing = true;
@@ -66,13 +68,16 @@ class Login extends Vue {
     switch (response.status) {
       case 200: {
         await this.$store.dispatch("getCurrentUser");
+        this.$router.push({ name: "Home" });
         break;
       }
       case 401: {
+        this.error = "Username and/or password is wrong."
         console.log("Authentication failed.");
         break;
       }
       default: {
+        this.error = "Something went wrong please try again."
         console.log("Something went wrong.");
         break;
       }
@@ -85,6 +90,7 @@ export default Login;
 
 <style lang="scss" scoped>
 .login-form {
+  width: 320px;
   padding: 10px;
   border: turquoise solid 1px;
   align-items: flex-end;
@@ -98,6 +104,11 @@ export default Login;
     user-select: none;
     margin-top: 10px;
     width: 100px;
+  }
+  .error {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
   }
 }
 </style>
