@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import router from "@/router";
 import { BASE_URL } from "@/app-strings";
 import { fetchWithCredentials } from "@/utils";
 
@@ -23,6 +24,11 @@ export default new Vuex.Store({
       } catch {
         console.log("Not authenticated.");
       }
+    },
+    async logout({ commit }) {
+      await fetchWithCredentials(BASE_URL + "/auth/logout");
+      commit("setCurrentUser", null);
+      if (router.currentRoute.name != "Home") router.push({ name: "Home" });
     },
   },
   modules: {},
