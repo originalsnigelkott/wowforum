@@ -36,14 +36,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .cors()
+                .and()
             .csrf().disable()
             .authorizeRequests()
-                .anyRequest()
-                .permitAll()
+                .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/api/auth/login")
+                .loginProcessingUrl("/api/auth/login").permitAll()
                 .successHandler(successHandler())
                 .failureHandler(failureHandler())
                 .and()
