@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MyUserDetailsService myUserDetailsService;
 
     @Override
-    protected void configure (AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(myUserDetailsService)
                 .passwordEncoder(passwordEncoder());
@@ -62,9 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler successHandler() {
         return new AuthenticationSuccessHandler() {
             @Override
-            public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                httpServletResponse.getWriter().append("Authentication successful.");
-                httpServletResponse.setStatus(200);
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
+                response.getWriter().append("Authentication successful.");
+                response.setStatus(200);
             }
         };
     }
@@ -72,9 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationFailureHandler failureHandler() {
         return new AuthenticationFailureHandler() {
             @Override
-            public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                httpServletResponse.getWriter().append("Authentication failed.");
-                httpServletResponse.setStatus(401);
+            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+                response.getWriter().append("Authentication failed.");
+                response.setStatus(401);
             }
         };
     }
@@ -82,9 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private LogoutSuccessHandler logoutSuccessHandler() {
         return new LogoutSuccessHandler() {
             @Override
-            public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                httpServletResponse.getWriter().append("Successfully logged out.");
-                httpServletResponse.setStatus(200);
+            public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
+                response.getWriter().append("Successfully logged out.");
+                response.setStatus(200);
             }
         };
     }
