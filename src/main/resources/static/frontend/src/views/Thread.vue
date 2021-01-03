@@ -19,7 +19,7 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
-import { BASE_URL } from "../app-strings";
+import { BASE_VERSION_URL } from "../app-strings";
 import PostList from "../components/thread/PostList";
 
 @Component({ components: { PostList } })
@@ -36,7 +36,7 @@ class Thread extends Vue {
 
   async created() {
     const threadId = this.$route.params.id;
-    const data = await fetch(`${BASE_URL}/threads/${threadId}`);
+    const data = await fetch(`${BASE_VERSION_URL}/threads/${threadId}`);
     try {
       const thread = await data.json();
       this.thread = thread;

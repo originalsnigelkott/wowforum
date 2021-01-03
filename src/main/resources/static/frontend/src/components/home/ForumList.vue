@@ -8,7 +8,7 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
-import { BASE_URL } from "../../app-strings";
+import { BASE_VERSION_URL } from "../../app-strings";
 import ForumItem from "../shared/ForumItem";
 
 @Component({
@@ -18,7 +18,7 @@ class ForumList extends Vue {
   forums = [];
 
   async created() {
-    const data = await fetch(`${BASE_URL}/forums`);
+    const data = await fetch(`${BASE_VERSION_URL}/forums`);
     try {
       const forums = await data.json();
       this.forums = forums;
