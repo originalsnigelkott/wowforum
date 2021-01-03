@@ -14,7 +14,7 @@
 
 <script>
 import { Vue, Component, Prop } from "vue-property-decorator";
-import ThreadItem from "../forum/ThreadItem.vue";
+import ThreadItem from "@/components/forum/ThreadItem.vue";
 
 @Component({
   components: { ThreadItem },

@@ -6,8 +6,9 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
-import { BASE_VERSION_URL } from "../app-strings";
-import ForumItem from "../components/shared/ForumItem";
+import { BASE_VERSION_URL } from "@/app-strings";
+import { fetchWithCredentials } from "@/utils"
+import ForumItem from "@/components/shared/ForumItem";
 
 @Component({
   components: { ForumItem },
@@ -21,7 +22,7 @@ class Forum extends Vue {
 
   async created() {
     const forumId = this.$route.params.id;
-    const data = await fetch(`${BASE_VERSION_URL}/forums/${forumId}`);
+    const data = await fetchWithCredentials(`${BASE_VERSION_URL}/forums/${forumId}`);
     try {
       const forum = await data.json();
       this.forum = forum;

@@ -29,7 +29,8 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
-import { BASE_URL } from "../app-strings";
+import { BASE_URL } from "@/app-strings";
+import { fetchWithCredentials } from "@/utils"
 
 @Component()
 class Login extends Vue {
@@ -50,7 +51,7 @@ class Login extends Vue {
       encodeURIComponent(this.username) +
       "&password=" +
       encodeURIComponent(this.password);
-    const response = await fetch(BASE_URL + "/auth/login", {
+    const response = await fetchWithCredentials(BASE_URL + "/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

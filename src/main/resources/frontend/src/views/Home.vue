@@ -13,7 +13,7 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
-import ForumList from "../components/home/ForumList";
+import ForumList from "@/components/home/ForumList";
 
 @Component({
   components: { ForumList },
