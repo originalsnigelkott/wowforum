@@ -45,6 +45,8 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
+import { BASE_VERSION_URL } from "@/app-strings";
+import { fetchWithCredentials } from "@/utils";
 
 @Component()
 class SignUp extends Vue {
@@ -57,15 +59,26 @@ class SignUp extends Vue {
   async signUp() {
     this.processing = true;
     const response = await this.attemptSignUp();
-    await handleResponse(response);
+    await this.handleResponse(response);
     this.processing = false;
   }
 
   async attemptSignUp() {
-    // TODO: Implement
+    const payload = {
+      username: this.username,
+      password: this.password,
+      firstName: this.firstName,
+      lastName: this.lastName,
+    };
+    const response = await fetchWithCredentials(BASE_VERSION_URL + "/users", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    return response;
   }
 
   async handleResponse(response) {
+    console.log(response);
     // TODO: Implement
   }
 }
