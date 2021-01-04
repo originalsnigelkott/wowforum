@@ -29,7 +29,7 @@ class CreatePostForm extends Vue {
   content = null;
 
   async createPost() {
-    console.log(this.content);
+    this.processing = true;
     const threadId = this.$route.params.id;
     const response = await fetchWithCredentials(
       `${BASE_VERSION_URL}/threads/${threadId}/posts`,
@@ -39,7 +39,24 @@ class CreatePostForm extends Vue {
         body: JSON.stringify({ content: this.content }),
       }
     );
-    console.log(response);
+    await this.handleResponse(response);
+    this.processing = false;
+  }
+
+  async handleResponse(response) {
+    switch (response.status) {
+      case 201: {
+        const post = await response.json();
+        this.$emit("addPost", post)
+        this.content = null;
+        break;
+      }
+      default: {
+        console.log("Something went wrong.")
+        break;
+      }
+    }
+
   }
 }
 
