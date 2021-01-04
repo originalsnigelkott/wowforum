@@ -9,7 +9,7 @@
       </span>
     </div>
     <div class="content">
-      <p>{{ post.content }}</p>
+      <p>{{ content }}</p>
     </div>
   </div>
 </template>
@@ -21,6 +21,10 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 class PostItem extends Vue {
   @Prop({ required: true })
   post;
+
+  get content() {
+    return this.post.content.replace(/\\n/g, "\n");
+  }
 
   get creationDate() {
     return new Date(this.post.created).toLocaleString();
@@ -46,6 +50,9 @@ export default PostItem;
   }
   .content {
     padding: 5px 10px;
+    p {
+      white-space: pre-wrap;
+    }
   }
 }
 </style>
