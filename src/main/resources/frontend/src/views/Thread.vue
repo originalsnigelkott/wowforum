@@ -1,5 +1,5 @@
 <template>
-  <div class="view">
+  <div class="view col center-y">
     <div class="content">
       <div class="header row">
         <h2 class="title">{{ thread.topic }}</h2>
@@ -14,6 +14,7 @@
       </div>
       <PostList :posts="thread.posts" />
     </div>
+    <PostForm v-if="currentUser" @addPost="addPost($event)" />
   </div>
 </template>
 
@@ -22,10 +23,15 @@ import { Vue, Component } from "vue-property-decorator";
 import { BASE_VERSION_URL } from "@/app-strings";
 import { fetchWithCredentials } from "@/utils"
 import PostList from "@/components/thread/PostList";
+import PostForm from "@/components/shared/PostForm";
 
-@Component({ components: { PostList } })
+@Component({ components: { PostList, PostForm } })
 class Thread extends Vue {
   thread = {};
+
+  get currentUser() {
+    return this.$store.state.currentUser;
+  }
 
   get author() {
     return this.thread?.initialPost?.creator?.username;
@@ -35,13 +41,16 @@ class Thread extends Vue {
     return new Date(this.thread?.initialPost?.created).toLocaleString();
   }
 
+  addPost(post) {
+    this.thread.posts.push(post);
+  }
+
   async created() {
     const threadId = this.$route.params.id;
     const data = await fetchWithCredentials(`${BASE_VERSION_URL}/threads/${threadId}`);
     try {
       const thread = await data.json();
       this.thread = thread;
-      console.log(thread);
     } catch {
       console.error("An error occured while loading the thread.");
     }
@@ -54,6 +63,8 @@ export default Thread;
 <style lang="scss" scoped>
 .content {
   border: turquoise solid 1px;
+  margin-bottom: 20px;
+  width: 100%;
   .header {
     padding: 10px;
     border-bottom: turquoise solid 1px;
