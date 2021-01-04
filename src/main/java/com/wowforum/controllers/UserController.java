@@ -17,13 +17,14 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
-    private static final String ENDPOINT_NAME = "/api/v1/users";
+    private static final String ENDPOINT_NAME = "/api/v1/users/";
 
     @Autowired
     private UserService userService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserReadDto> createForum(@RequestBody UserCreateDto user) {
+    public ResponseEntity<UserReadDto> createUser(@RequestBody UserCreateDto user) {
+        System.out.println("Inside post mapping user");
         var createdUser = userService.createUser(user);
         var uri = URI.create(ENDPOINT_NAME + createdUser.getId());
         var dto = new UserReadDto(createdUser);

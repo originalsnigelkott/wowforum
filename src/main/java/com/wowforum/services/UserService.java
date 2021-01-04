@@ -1,5 +1,6 @@
 package com.wowforum.services;
 
+import com.wowforum.configs.MyUserDetailsService;
 import com.wowforum.dtos.UserCreateDto;
 import com.wowforum.entities.User;
 import com.wowforum.repositories.UserRepository;
@@ -15,10 +16,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MyUserDetailsService userDetailsService;
+
     public User createUser(UserCreateDto userCreateDto) {
         var user = new User(userCreateDto);
         user.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
-        if(currentUserIsAdmin()) {
+        if (currentUserIsAdmin()) {
             user.setRoles(userCreateDto.getRoles());
         } else {
             user.setRoles("USER");
@@ -27,7 +31,7 @@ public class UserService {
     }
 
     private boolean currentUserIsAdmin() {
-        // TODO: change to check the current user role
-        return true;
+        var user = userDetailsService.getCurrentUser();
+        return user != null && user.getRoles().contains("ADMIN");
     }
 }
