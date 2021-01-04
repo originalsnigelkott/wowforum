@@ -1,11 +1,15 @@
 package com.wowforum.services;
 
+import com.wowforum.configs.MyUserDetailsService;
+import com.wowforum.dtos.PostCreateDto;
 import com.wowforum.entities.Post;
 import com.wowforum.exceptions.EntityNotFoundException;
 import com.wowforum.repositories.PostRepository;
 import com.wowforum.repositories.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +18,9 @@ import java.util.UUID;
 public class PostService {
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
     private ThreadRepository threadRepository;
@@ -26,9 +33,19 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("post", "id"));
     }
 
-    public Post createPost(UUID threadId, Post post) {
+    public Post createPost(UUID threadId, PostCreateDto postDto) {
         var thread = threadRepository.findById(threadId).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
+        var creator = userDetailsService.getCurrentUser();
+        if (creator == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Need to be logged in to complete this request.");
+        }
+        System.out.println("Creating post.");
+        var post = new Post(postDto);
+        System.out.println("Setting thread.");
         post.setThread(thread);
+        System.out.println("Setting creator.");
+        post.setCreator(creator);
+        System.out.println("Saving...");
         return postRepository.save(post);
     }
 }

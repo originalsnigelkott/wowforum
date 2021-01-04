@@ -1,12 +1,14 @@
 package com.wowforum.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.wowforum.dtos.PostCreateDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -35,4 +37,8 @@ public class Post {
     @Column(name = "created", nullable = false)
     private Long created;
 
+    public Post (PostCreateDto postCreateDto) {
+        this.content = postCreateDto.getContent();
+        this.created = Instant.now().toEpochMilli();
+    }
 }

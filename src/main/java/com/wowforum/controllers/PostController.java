@@ -1,5 +1,6 @@
 package com.wowforum.controllers;
 
+import com.wowforum.dtos.PostCreateDto;
 import com.wowforum.entities.Post;
 import com.wowforum.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,10 @@ public class PostController {
     }
 
     @PostMapping("threads/{threadId}/posts")
-    public ResponseEntity<Post> createPost(@PathVariable UUID threadId, @RequestBody Post post) {
+    public ResponseEntity<Post> createPost(@PathVariable UUID threadId, @RequestBody PostCreateDto post) {
+        System.out.println("Inside request.");
         var createdPost =  postService.createPost(threadId, post);
+        System.out.println("After creation.");
         var uri = URI.create(ENDPOINT_NAME + createdPost.getId());
         return ResponseEntity.created(uri).body(createdPost);
     }

@@ -9,6 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BasePostDto {
     private String content;
-    private Long created;
-    private UserReadDto creator;
 }
