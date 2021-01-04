@@ -79,12 +79,13 @@ main {
   }
 }
 
-input {
+input, textarea {
   border-radius: 5px;
   border: none;
   padding: 5px;
   font-size: 16px;
   background-color: rgb(85, 85, 85);
+  resize: none;
   &:focus {
     outline: none;
     box-shadow: hotpink 0 0 2px 2px;
