@@ -1,6 +1,6 @@
 <template>
   <div class="view col center-xy">
-    <form class="login-form col" @submit.prevent="login()">
+    <form class="login-form form col" @submit.prevent="login()">
       <div class="input-fields col">
         <label for="username-input">Username</label>
         <input
@@ -20,7 +20,7 @@
           required
         />
       </div>
-      <button :disabled="processing" type="submit" class="btn login-btn">
+      <button :disabled="processing" type="submit" class="btn submit-btn">
         Login
       </button>
       <span v-if="error" class="error">{{ error }}</span>
@@ -96,22 +96,9 @@ export default Login;
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/form";
+
 .login-form {
-  width: 320px;
-  padding: 10px;
-  border: turquoise solid 1px;
-  align-items: flex-end;
-  .input-fields {
-    width: 100%;
-    .input-field {
-      margin-bottom: 10px;
-    }
-  }
-  .login-btn {
-    user-select: none;
-    margin-top: 10px;
-    width: 100px;
-  }
   .error {
     color: red;
     margin-top: 10px;
