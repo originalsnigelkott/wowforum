@@ -39,13 +39,9 @@ public class PostService {
         if (creator == null) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Need to be logged in to complete this request.");
         }
-        System.out.println("Creating post.");
         var post = new Post(postDto);
-        System.out.println("Setting thread.");
         post.setThread(thread);
-        System.out.println("Setting creator.");
         post.setCreator(creator);
-        System.out.println("Saving...");
         return postRepository.save(post);
     }
 }
