@@ -25,13 +25,16 @@
       </button>
       <span v-if="error" class="error">{{ error }}</span>
     </form>
+    <span class="sign-up-link pointer" @click="navigateTo('SignUp')">
+      Do not have an account? Click here!
+    </span>
   </div>
 </template>
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
 import { BASE_URL } from "@/app-strings";
-import { fetchWithCredentials } from "@/utils"
+import { fetchWithCredentials } from "@/utils";
 
 @Component()
 class Login extends Vue {
@@ -39,6 +42,10 @@ class Login extends Vue {
   username = null;
   password = null;
   error = null;
+
+  navigateTo(routeName) {
+    if (this.$route.name != routeName) this.$router.push({ name: routeName });
+  }
 
   async login() {
     this.processing = true;
@@ -72,12 +79,12 @@ class Login extends Vue {
         break;
       }
       case 401: {
-        this.error = "Username and/or password is wrong."
+        this.error = "Username and/or password is wrong.";
         console.log("Authentication failed.");
         break;
       }
       default: {
-        this.error = "Something went wrong please try again."
+        this.error = "Something went wrong please try again.";
         console.log("Something went wrong.");
         break;
       }
@@ -109,6 +116,14 @@ export default Login;
     color: red;
     margin-top: 10px;
     font-weight: bold;
+  }
+}
+
+.sign-up-link {
+  margin-top: 20px;
+  box-shadow: none;
+  &:hover {
+    text-decoration: underline;
   }
 }
 </style>
