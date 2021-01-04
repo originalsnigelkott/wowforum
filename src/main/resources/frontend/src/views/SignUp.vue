@@ -18,6 +18,7 @@
           class="input-field"
           v-model="password"
           required
+          minlength="6"
         />
         <label for="firstname-input">First name</label>
         <input
@@ -79,8 +80,16 @@ class SignUp extends Vue {
   }
 
   async handleResponse(response) {
-    console.log(response);
-    // TODO: Implement
+    switch (response.status) {
+      case 201: {
+        this.$router.push({ name: "Login" })
+        break;
+      }
+      default: {
+        console.log("Something went wrong.");
+        break;
+      }
+    }
   }
 }
 
