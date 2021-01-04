@@ -55,6 +55,17 @@ class SignUp extends Vue {
   lastName = null;
 
   async signUp() {
+    this.processing = true;
+    const response = await this.attemptSignUp();
+    await handleResponse(response);
+    this.processing = false;
+  }
+
+  async attemptSignUp() {
+    // TODO: Implement
+  }
+
+  async handleResponse(response) {
     // TODO: Implement
   }
 }
