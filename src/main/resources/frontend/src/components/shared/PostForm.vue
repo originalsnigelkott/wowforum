@@ -1,21 +1,25 @@
 <template>
-  <form class="form" @submit.prevent="createPost()">
-    <div class="input-fields col">
-      <label for="content-input">Content</label>
-      <textarea
-        id="content-input"
-        class="input-field"
-        v-model="content"
-        rows="4"
-        cols="50"
-        autofocus
-        required
-      ></textarea>
+  <div>
+    <div class="header">
+      <h3>Create new post</h3>
     </div>
-    <button :disabled="processing" type="submit" class="btn submit-btn">
-      Create post
-    </button>
-  </form>
+    <form class="form col" @submit.prevent="createPost()">
+      <div class="input-fields col">
+        <label for="content-input">Content</label>
+        <textarea
+          id="content-input"
+          class="input-field"
+          v-model="content"
+          rows="4"
+          autofocus
+          required
+        ></textarea>
+      </div>
+      <button :disabled="processing" type="submit" class="btn submit-btn">
+        Create post
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -24,7 +28,7 @@ import { BASE_VERSION_URL } from "@/app-strings";
 import { fetchWithCredentials } from "@/utils";
 
 @Component()
-class CreatePostForm extends Vue {
+class PostForm extends Vue {
   processing = false;
   content = null;
 
@@ -47,22 +51,28 @@ class CreatePostForm extends Vue {
     switch (response.status) {
       case 201: {
         const post = await response.json();
-        this.$emit("addPost", post)
+        this.$emit("addPost", post);
         this.content = null;
         break;
       }
       default: {
-        console.log("Something went wrong.")
+        console.log("Something went wrong.");
         break;
       }
     }
-
   }
 }
 
-export default CreatePostForm;
+export default PostForm;
 </script>
 
 <style lang="scss" scoped>
 @import "@/styles/form";
+
+.header {
+  border-left: turquoise solid 1px;
+  border-right: turquoise solid 1px;
+  border-top: turquoise solid 1px;
+  padding: 10px;
+}
 </style>
