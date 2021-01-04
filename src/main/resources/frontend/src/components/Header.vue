@@ -1,10 +1,10 @@
 <template>
   <div class="header">
     <div class="header-content row center-xy">
-      <h1 @click="goHome()" class="title pointer">Wow forum</h1>
+      <h1 @click="navigateTo('Home')" class="title pointer">Wow forum</h1>
       <button
         v-if="shouldShowLoginButton"
-        @click="goToLogin()"
+        @click="navigateTo('Login')"
         class="auth-btn btn"
       >
         Login
@@ -33,12 +33,8 @@ class Header extends Vue {
     return this.$store.state.currentUser;
   }
 
-  goHome() {
-    if (this.$route.name != "Home") this.$router.push({ name: "Home" });
-  }
-
-  goToLogin() {
-    if (this.$route.name != "Login") this.$router.push({ name: "Login" });
+  navigateTo(routeName) {
+    if (this.$route.name !=routeName) this.$router.push({ name: routeName });
   }
 
   logout() {
