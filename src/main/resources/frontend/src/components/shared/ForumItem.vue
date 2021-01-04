@@ -49,6 +49,7 @@ export default ForumItem;
 .forum {
   margin: 5px 0;
   border: turquoise solid 1px;
+  width: 100%;
   .header {
     padding: 5px 10px;
     border-bottom: turquoise solid 1px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="view">
+  <div class="view col center-y">
     <ForumItem :forum="forum" :canNavigate="false" />
   </div>
 </template>
