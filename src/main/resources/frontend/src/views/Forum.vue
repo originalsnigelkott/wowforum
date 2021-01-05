@@ -50,8 +50,8 @@ export default Forum;
 </script>
 
 <style lang="scss" scoped>
-  .content {
-    width: 100%;
-    margin-bottom: 20px;
-  }
+.content {
+  width: 100%;
+  margin-bottom: 20px;
+}
 </style>

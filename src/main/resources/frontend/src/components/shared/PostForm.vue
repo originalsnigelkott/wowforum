@@ -23,12 +23,15 @@
 </template>
 
 <script>
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { BASE_VERSION_URL } from "@/app-strings";
 import { fetchWithCredentials } from "@/utils";
 
 @Component()
 class PostForm extends Vue {
+  @Prop({ default: false })
+  canWriteWarning;
+
   processing = false;
   content = null;
 

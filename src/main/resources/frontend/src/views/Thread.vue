@@ -14,7 +14,7 @@
       </div>
       <PostList :posts="thread.posts" />
     </div>
-    <PostForm v-if="currentUser" @addPost="addPost($event)" />
+    <PostForm v-if="currentUser" :canWriteWarning="userHasModerationRights" @addPost="addPost($event)" />
   </div>
 </template>
 
@@ -39,6 +39,10 @@ class Thread extends Vue {
 
   get creationDate() {
     return new Date(this.thread?.initialPost?.created).toLocaleString();
+  }
+
+  get userHasModerationRights() {
+    return this.currentUser?.roles.includes("ADMIN") || this.currentUser?.moderates.includes(this.thread.forumId);
   }
 
   addPost(post) {
