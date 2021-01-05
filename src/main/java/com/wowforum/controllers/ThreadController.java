@@ -1,5 +1,6 @@
 package com.wowforum.controllers;
 
+import com.wowforum.dtos.ThreadCreateDto;
 import com.wowforum.entities.Thread;
 import com.wowforum.services.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ThreadController {
     }
 
     @PostMapping("/forums/{forumId}/threads")
-    public ResponseEntity<Thread> createThread(@PathVariable UUID forumId, @RequestBody Thread thread) {
+    public ResponseEntity<Thread> createThread(@PathVariable UUID forumId, @RequestBody ThreadCreateDto thread) {
         var createdThread = threadService.createThread(forumId, thread);
         var uri = URI.create(ENDPOINT_NAME + createdThread.getId());
         return ResponseEntity.created(uri).body(createdThread);

@@ -1,5 +1,6 @@
 package com.wowforum.entities;
 
+import com.wowforum.dtos.ThreadCreateDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,4 +33,13 @@ public class Thread {
 
     @OneToMany(mappedBy="thread", cascade = CascadeType.ALL)
     private List<Post> posts;
+
+    public Thread (ThreadCreateDto threadCreateDto, UUID forumId, User creator) {
+        this.id = UUID.randomUUID();
+        this.forumId = forumId;
+        this.topic = threadCreateDto.getTopic();
+        this.initialPost = new Post(threadCreateDto.getInitialPost());
+        this.initialPost.setThread(this);
+        this.initialPost.setCreator(creator);
+    }
 }
