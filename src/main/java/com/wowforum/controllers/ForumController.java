@@ -45,4 +45,11 @@ public class ForumController {
     var uri = URI.create(ENDPOINT_NAME + createdForum.getId());
     return ResponseEntity.created(uri).body(createdForum);
   }
+
+  @PostMapping("/{forumId}/moderators/{userId}")
+  @Secured("ROLE_ADMIN")
+  public ResponseEntity addModerator(@PathVariable UUID forumId, @PathVariable UUID userId ) {
+    forumService.addModerator(forumId, userId);
+    return ResponseEntity.ok("OK");
+  }
 }
