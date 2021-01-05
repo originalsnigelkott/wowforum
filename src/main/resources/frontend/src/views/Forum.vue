@@ -1,28 +1,42 @@
 <template>
   <div class="view col center-y">
-    <ForumItem :forum="forum" :canNavigate="false" />
+    <div class="content">
+      <ForumItem :forum="forum" :canNavigate="false" />
+    </div>
+    <ThreadForm v-if="currentUser" @addThread="addThread($event)" />
   </div>
 </template>
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
 import { BASE_VERSION_URL } from "@/app-strings";
-import { fetchWithCredentials } from "@/utils"
+import { fetchWithCredentials } from "@/utils";
 import ForumItem from "@/components/shared/ForumItem";
+import ThreadForm from "@/components/shared/ThreadForm";
 
 @Component({
-  components: { ForumItem },
+  components: { ForumItem, ThreadForm },
 })
 class Forum extends Vue {
   forum = {};
+
+  get currentUser() {
+    return this.$store.state.currentUser;
+  }
 
   get threads() {
     return this.forum.threads ? this.forum.threads : [];
   }
 
+  addThread(thread) {
+    this.forum.threads.push(thread);
+  }
+
   async created() {
     const forumId = this.$route.params.id;
-    const data = await fetchWithCredentials(`${BASE_VERSION_URL}/forums/${forumId}`);
+    const data = await fetchWithCredentials(
+      `${BASE_VERSION_URL}/forums/${forumId}`
+    );
     try {
       const forum = await data.json();
       this.forum = forum;
@@ -36,18 +50,8 @@ export default Forum;
 </script>
 
 <style lang="scss" scoped>
-.content {
-  border: turquoise solid 1px;
-  .header {
-    padding: 5px 10px;
-    border-bottom: turquoise solid 1px;
-    .title {
-      font-size: 24px;
-    }
-    .title,
-    .description {
-      padding: 5px 0;
-    }
+  .content {
+    width: 100%;
+    margin-bottom: 20px;
   }
-}
 </style>
