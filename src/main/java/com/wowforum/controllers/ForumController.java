@@ -6,6 +6,7 @@ import com.wowforum.services.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -38,6 +39,7 @@ public class ForumController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Forum> createForum(@RequestBody Forum forum) {
         var createdForum = forumService.createForum(forum);
         var uri = URI.create(ENDPOINT_NAME + createdForum.getId());
