@@ -23,7 +23,6 @@ public class UserController {
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserReadDto> createUser(@RequestBody UserCreateDto user) {
-    System.out.println("Inside post mapping user");
     var createdUser = userService.createUser(user);
     var uri = URI.create(ENDPOINT_NAME + createdUser.getId());
     var dto = new UserReadDto(createdUser);
