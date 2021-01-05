@@ -37,6 +37,9 @@ public class Post {
   @Column(name = "created", nullable = false)
   private Long created;
 
+  @Column(name = "is_warning")
+  private boolean isWarning;
+
   public Post(PostCreateDto postCreateDto) {
     this.content = postCreateDto.getContent();
     this.created = Instant.now().toEpochMilli();

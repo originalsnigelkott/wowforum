@@ -14,7 +14,7 @@ public class PostReadDto extends BasePostDto {
   private UserReadDto creator;
 
   public PostReadDto(Post post) {
-    super(post.getContent());
+    super(post.getContent(), post.isWarning());
     this.id = post.getId();
     this.created = post.getCreated();
     this.creator = new UserReadDto(post.getCreator());
