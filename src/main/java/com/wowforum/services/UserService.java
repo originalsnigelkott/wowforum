@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
   @Autowired
@@ -28,6 +30,10 @@ public class UserService {
       user.setRoles("USER");
     }
     return userRepository.save(user);
+  }
+
+  public List<User> getAll() {
+    return userRepository.findAll();
   }
 
   private boolean currentUserIsAdmin() {
