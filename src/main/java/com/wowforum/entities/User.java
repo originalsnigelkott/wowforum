@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -38,9 +37,6 @@ public class User {
 
   @Column(name = "roles")
   private String roles;
-
-  @ManyToMany(mappedBy = "moderators")
-  private Set<Forum> moderatedForums;
 
   @JsonIgnore
   public String getPassword() {
