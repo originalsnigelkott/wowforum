@@ -9,7 +9,7 @@
       </span>
     </div>
     <div class="content">
-      <p>{{ content }}</p>
+      <p :class="{ warning: post.warning }">{{ content }}</p>
     </div>
   </div>
 </template>
@@ -52,6 +52,11 @@ export default PostItem;
     padding: 5px 10px;
     p {
       white-space: pre-wrap;
+    }
+    .warning {
+      color: red;
+      font-weight: bold;
+      text-decoration: underline;
     }
   }
 }
