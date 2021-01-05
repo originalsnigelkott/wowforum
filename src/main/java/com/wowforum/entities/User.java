@@ -3,12 +3,11 @@ package com.wowforum.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wowforum.dtos.UserCreateDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +15,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "moderatedForums")
 public class User {
   @Id
   @GeneratedValue(generator = "UUID")
@@ -37,6 +37,9 @@ public class User {
 
   @Column(name = "roles")
   private String roles;
+
+  @ManyToMany(mappedBy = "moderators", fetch = FetchType.LAZY)
+  private Set<Forum> moderatedForums;
 
   @JsonIgnore
   public String getPassword() {
