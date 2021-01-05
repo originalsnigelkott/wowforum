@@ -17,28 +17,28 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(name = "id", updatable = false, nullable = false)
+  private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User creator;
+  @ManyToOne
+  @JoinColumn(name = "user_id", nullable = false)
+  private User creator;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Thread thread;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JsonBackReference
+  private Thread thread;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+  @Column(name = "content", nullable = false)
+  private String content;
 
-    @Column(name = "created", nullable = false)
-    private Long created;
+  @Column(name = "created", nullable = false)
+  private Long created;
 
-    public Post (PostCreateDto postCreateDto) {
-        this.content = postCreateDto.getContent();
-        this.created = Instant.now().toEpochMilli();
-    }
+  public Post(PostCreateDto postCreateDto) {
+    this.content = postCreateDto.getContent();
+    this.created = Instant.now().toEpochMilli();
+  }
 }

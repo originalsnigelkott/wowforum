@@ -15,28 +15,28 @@ import java.util.UUID;
 
 @Service
 public class ThreadService {
-    @Autowired
-    private ThreadRepository threadRepository;
+  @Autowired
+  private ThreadRepository threadRepository;
 
-    @Autowired
-    private MyUserDetailsService userDetailsService;
+  @Autowired
+  private MyUserDetailsService userDetailsService;
 
-    public List<Thread> getThreadsByForumId(UUID forumId) {
-        return threadRepository.findAllByForumId(forumId);
+  public List<Thread> getThreadsByForumId(UUID forumId) {
+    return threadRepository.findAllByForumId(forumId);
+  }
+
+  public Thread getThreadById(UUID id) {
+    return threadRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
+  }
+
+  public Thread createThread(UUID forumId, ThreadCreateDto threadDto) {
+    var creator = userDetailsService.getCurrentUser();
+    if (creator == null) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Need to be logged in to complete this request.");
     }
 
-    public Thread getThreadById(UUID id) {
-        return threadRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
-    }
+    var thread = new Thread(threadDto, forumId, creator);
 
-    public Thread createThread(UUID forumId, ThreadCreateDto threadDto) {
-        var creator = userDetailsService.getCurrentUser();
-        if (creator == null) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Need to be logged in to complete this request.");
-        }
-
-        var thread = new Thread(threadDto, forumId, creator);
-
-        return threadRepository.save(thread);
-    }
+    return threadRepository.save(thread);
+  }
 }

@@ -17,32 +17,32 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/forums")
 public class ForumController {
-    private final String ENDPOINT_NAME = "/api/v1/forums/";
+  private final String ENDPOINT_NAME = "/api/v1/forums/";
 
-    @Autowired
-    private ForumService forumService;
+  @Autowired
+  private ForumService forumService;
 
-    @GetMapping
-    public ResponseEntity<List<ForumReadDto>> getAllForums() {
-        var forums = forumService.getAllForums();
-        var dtos = forums.stream()
-                .map(forum -> new ForumReadDto(forum, 3L))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
-    }
+  @GetMapping
+  public ResponseEntity<List<ForumReadDto>> getAllForums() {
+    var forums = forumService.getAllForums();
+    var dtos = forums.stream()
+      .map(forum -> new ForumReadDto(forum, 3L))
+      .collect(Collectors.toList());
+    return ResponseEntity.ok(dtos);
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ForumReadDto> getForumById(@PathVariable UUID id) {
-        var forum = forumService.getForumById(id);
-        var dto = new ForumReadDto(forum);
-        return ResponseEntity.ok(dto);
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<ForumReadDto> getForumById(@PathVariable UUID id) {
+    var forum = forumService.getForumById(id);
+    var dto = new ForumReadDto(forum);
+    return ResponseEntity.ok(dto);
+  }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<Forum> createForum(@RequestBody Forum forum) {
-        var createdForum = forumService.createForum(forum);
-        var uri = URI.create(ENDPOINT_NAME + createdForum.getId());
-        return ResponseEntity.created(uri).body(createdForum);
-    }
+  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  @Secured("ROLE_ADMIN")
+  public ResponseEntity<Forum> createForum(@RequestBody Forum forum) {
+    var createdForum = forumService.createForum(forum);
+    var uri = URI.create(ENDPOINT_NAME + createdForum.getId());
+    return ResponseEntity.created(uri).body(createdForum);
+  }
 }

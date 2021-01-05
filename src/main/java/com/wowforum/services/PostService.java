@@ -16,32 +16,32 @@ import java.util.UUID;
 
 @Service
 public class PostService {
-    @Autowired
-    private PostRepository postRepository;
+  @Autowired
+  private PostRepository postRepository;
 
-    @Autowired
-    private MyUserDetailsService userDetailsService;
+  @Autowired
+  private MyUserDetailsService userDetailsService;
 
-    @Autowired
-    private ThreadRepository threadRepository;
+  @Autowired
+  private ThreadRepository threadRepository;
 
-    public List<Post> getPostsByThreadId(UUID threadId) {
-        return postRepository.findAllByThreadId(threadId);
+  public List<Post> getPostsByThreadId(UUID threadId) {
+    return postRepository.findAllByThreadId(threadId);
+  }
+
+  public Post getPostById(UUID id) {
+    return postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("post", "id"));
+  }
+
+  public Post createPost(UUID threadId, PostCreateDto postDto) {
+    var thread = threadRepository.findById(threadId).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
+    var creator = userDetailsService.getCurrentUser();
+    if (creator == null) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Need to be logged in to complete this request.");
     }
-
-    public Post getPostById(UUID id) {
-        return postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("post", "id"));
-    }
-
-    public Post createPost(UUID threadId, PostCreateDto postDto) {
-        var thread = threadRepository.findById(threadId).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
-        var creator = userDetailsService.getCurrentUser();
-        if (creator == null) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Need to be logged in to complete this request.");
-        }
-        var post = new Post(postDto);
-        post.setThread(thread);
-        post.setCreator(creator);
-        return postRepository.save(post);
-    }
+    var post = new Post(postDto);
+    post.setThread(thread);
+    post.setCreator(creator);
+    return postRepository.save(post);
+  }
 }

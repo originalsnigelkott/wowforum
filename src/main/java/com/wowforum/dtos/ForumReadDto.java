@@ -13,24 +13,24 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ForumReadDto extends BaseForumDto {
-    private UUID id;
-    private List<ThreadReadDto> threads;
+  private UUID id;
+  private List<ThreadReadDto> threads;
 
-    public ForumReadDto(Forum forum, Long threadLimit) {
-        super(forum.getName(), forum.getDescription());
-        this.id = forum.getId();
-        this.threads = forum.getThreads().stream()
-                .map(thread -> new ThreadReadDto(thread, 1L))
-                .limit(threadLimit)
-                .collect(Collectors.toList());
-    }
+  public ForumReadDto(Forum forum, Long threadLimit) {
+    super(forum.getName(), forum.getDescription());
+    this.id = forum.getId();
+    this.threads = forum.getThreads().stream()
+      .map(thread -> new ThreadReadDto(thread, 1L))
+      .limit(threadLimit)
+      .collect(Collectors.toList());
+  }
 
-    public ForumReadDto(Forum forum) {
-        super(forum.getName(), forum.getDescription());
-        this.id = forum.getId();
-        this.threads = forum.getThreads().stream()
-                .map(thread -> new ThreadReadDto(thread, 1L))
-                .collect(Collectors.toList());
-    }
+  public ForumReadDto(Forum forum) {
+    super(forum.getName(), forum.getDescription());
+    this.id = forum.getId();
+    this.threads = forum.getThreads().stream()
+      .map(thread -> new ThreadReadDto(thread, 1L))
+      .collect(Collectors.toList());
+  }
 
 }

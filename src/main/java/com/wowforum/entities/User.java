@@ -18,43 +18,43 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(name = "id", updatable = false, nullable = false)
+  private UUID id;
 
-    @Column(name = "username")
-    private String username;
+  @Column(name = "username")
+  private String username;
 
-    @Column(name = "password")
-    private String password;
+  @Column(name = "password")
+  private String password;
 
-    @Column(name = "first_name")
-    private String firstName;
+  @Column(name = "first_name")
+  private String firstName;
 
-    @Column(name = "last_name")
-    private String lastName;
+  @Column(name = "last_name")
+  private String lastName;
 
-    @Column(name = "roles")
-    private String roles;
+  @Column(name = "roles")
+  private String roles;
 
-    @ManyToMany(mappedBy = "moderators")
-    private Set<Forum> moderatedForums;
+  @ManyToMany(mappedBy = "moderators")
+  private Set<Forum> moderatedForums;
 
-    @JsonIgnore
-    public String getPassword() {
-        return password;
-    }
+  @JsonIgnore
+  public String getPassword() {
+    return password;
+  }
 
-    @JsonProperty
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  @JsonProperty
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public User (UserCreateDto user) {
-        this.username = user.getUsername();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-    }
+  public User(UserCreateDto user) {
+    this.username = user.getUsername();
+    this.firstName = user.getFirstName();
+    this.lastName = user.getLastName();
+  }
 }

@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface ThreadRepository extends JpaRepository<Thread, UUID> {
-    List<Thread> findAllByForumId(UUID forumId);
+  List<Thread> findAllByForumId(UUID forumId);
 }

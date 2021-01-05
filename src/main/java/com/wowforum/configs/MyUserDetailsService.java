@@ -19,41 +19,41 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class MyUserDetailsService implements UserDetailsService {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User with username %s not found.", username)));
-        return toUserDetails(user);
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    var user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User with username %s not found.", username)));
+    return toUserDetails(user);
+  }
+
+  private Collection<GrantedAuthority> getGrantedAuthorities(User user) {
+    return Arrays.stream(user.getRoles().split(","))
+      .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+      .collect(Collectors.toSet());
+  }
+
+  private UserDetails toUserDetails(User user) {
+    return org.springframework.security.core.userdetails.User
+      .withUsername(user.getUsername())
+      .password(user.getPassword())
+      .authorities(getGrantedAuthorities(user))
+      .build();
+  }
+
+  public User getCurrentUser() {
+    var username = SecurityContextHolder.getContext().getAuthentication().getName();
+    if (username == "anonymousUser") {
+      return null;
     }
-
-    private Collection<GrantedAuthority> getGrantedAuthorities(User user) {
-        return Arrays.stream(user.getRoles().split(","))
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                .collect(Collectors.toSet());
-    }
-
-    private UserDetails toUserDetails(User user) {
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .authorities(getGrantedAuthorities(user))
-                .build();
-    }
-
-    public User getCurrentUser() {
-        var username = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (username == "anonymousUser") {
-            return null;
-        }
-        var user = userRepository.findByUsername(username).orElse(null);
-        return user;
-    }
+    var user = userRepository.findByUsername(username).orElse(null);
+    return user;
+  }
 }

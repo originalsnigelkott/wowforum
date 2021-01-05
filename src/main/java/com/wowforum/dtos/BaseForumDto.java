@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseForumDto {
-    private String name;
-    private String description;
+  private String name;
+  private String description;
 }

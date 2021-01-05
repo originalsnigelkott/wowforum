@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThreadCreateDto {
-    private String topic;
-    private PostCreateDto initialPost;
+  private String topic;
+  private PostCreateDto initialPost;
 }

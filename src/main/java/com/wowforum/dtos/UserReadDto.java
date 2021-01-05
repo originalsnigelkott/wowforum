@@ -9,10 +9,10 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class UserReadDto extends BaseUserDto {
-    private UUID id;
+  private UUID id;
 
-    public UserReadDto(User user) {
-        super(user.getUsername(), user.getFirstName(), user.getLastName(), user.getRoles());
-        this.id = user.getId();
-    }
+  public UserReadDto(User user) {
+    super(user.getUsername(), user.getFirstName(), user.getLastName(), user.getRoles());
+    this.id = user.getId();
+  }
 }

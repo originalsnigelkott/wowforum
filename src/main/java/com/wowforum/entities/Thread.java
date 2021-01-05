@@ -16,30 +16,30 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Thread {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(name = "id", updatable = false, nullable = false)
+  private UUID id;
 
-    @Column(name = "forum_id", nullable = false)
-    private UUID forumId;
+  @Column(name = "forum_id", nullable = false)
+  private UUID forumId;
 
-    @Column(name = "topic", nullable = false)
-    private String topic;
+  @Column(name = "topic", nullable = false)
+  private String topic;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    private Post initialPost;
+  @OneToOne(optional = false, cascade = CascadeType.ALL)
+  private Post initialPost;
 
-    @OneToMany(mappedBy="thread", cascade = CascadeType.ALL)
-    private List<Post> posts;
+  @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL)
+  private List<Post> posts;
 
-    public Thread (ThreadCreateDto threadCreateDto, UUID forumId, User creator) {
-        this.id = UUID.randomUUID();
-        this.forumId = forumId;
-        this.topic = threadCreateDto.getTopic();
-        this.initialPost = new Post(threadCreateDto.getInitialPost());
-        this.initialPost.setThread(this);
-        this.initialPost.setCreator(creator);
-    }
+  public Thread(ThreadCreateDto threadCreateDto, UUID forumId, User creator) {
+    this.id = UUID.randomUUID();
+    this.forumId = forumId;
+    this.topic = threadCreateDto.getTopic();
+    this.initialPost = new Post(threadCreateDto.getInitialPost());
+    this.initialPost.setThread(this);
+    this.initialPost.setCreator(creator);
+  }
 }

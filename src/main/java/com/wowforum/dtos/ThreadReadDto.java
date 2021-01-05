@@ -13,23 +13,23 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ThreadReadDto extends BaseThreadDto {
-    private UUID id;
-    private List<PostReadDto> posts;
+  private UUID id;
+  private List<PostReadDto> posts;
 
-    public ThreadReadDto(Thread thread, Long postLimit) {
-        super(thread.getTopic(), new PostReadDto(thread.getInitialPost()));
-        this.id = thread.getId();
-        if (postLimit == 1L) {
-            var postsSize = thread.getPosts().size();
-            var lastPost = thread.getPosts().get(postsSize - 1);
-            this.posts = List.of(new PostReadDto(lastPost));
-        } else {
-            this.posts = thread.getPosts().stream()
-                    .map(post -> new PostReadDto(post))
-                    .limit(postLimit)
-                    .collect(Collectors.toList());
-        }
+  public ThreadReadDto(Thread thread, Long postLimit) {
+    super(thread.getTopic(), new PostReadDto(thread.getInitialPost()));
+    this.id = thread.getId();
+    if (postLimit == 1L) {
+      var postsSize = thread.getPosts().size();
+      var lastPost = thread.getPosts().get(postsSize - 1);
+      this.posts = List.of(new PostReadDto(lastPost));
+    } else {
+      this.posts = thread.getPosts().stream()
+        .map(post -> new PostReadDto(post))
+        .limit(postLimit)
+        .collect(Collectors.toList());
     }
+  }
 }
 
 

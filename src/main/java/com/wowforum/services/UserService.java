@@ -10,28 +10,28 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    @Autowired
-    private MyUserDetailsService userDetailsService;
+  @Autowired
+  private MyUserDetailsService userDetailsService;
 
-    public User createUser(UserCreateDto userCreateDto) {
-        var user = new User(userCreateDto);
-        user.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
-        if (currentUserIsAdmin()) {
-            user.setRoles(userCreateDto.getRoles());
-        } else {
-            user.setRoles("USER");
-        }
-        return userRepository.save(user);
+  public User createUser(UserCreateDto userCreateDto) {
+    var user = new User(userCreateDto);
+    user.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
+    if (currentUserIsAdmin()) {
+      user.setRoles(userCreateDto.getRoles());
+    } else {
+      user.setRoles("USER");
     }
+    return userRepository.save(user);
+  }
 
-    private boolean currentUserIsAdmin() {
-        var user = userDetailsService.getCurrentUser();
-        return user != null && user.getRoles().contains("ADMIN");
-    }
+  private boolean currentUserIsAdmin() {
+    var user = userDetailsService.getCurrentUser();
+    return user != null && user.getRoles().contains("ADMIN");
+  }
 }

@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+  @Autowired
+  private MyUserDetailsService myUserDetailsService;
 
-    @GetMapping("login")
-    public ResponseEntity<UserReadDto> getCurrentUser() {
-        var user = myUserDetailsService.getCurrentUser();
-        if (user == null) {
-            return ResponseEntity.ok(null);
-        }
-        var dto = new UserReadDto(user);
-        return ResponseEntity.ok(dto);
+  @GetMapping("login")
+  public ResponseEntity<UserReadDto> getCurrentUser() {
+    var user = myUserDetailsService.getCurrentUser();
+    if (user == null) {
+      return ResponseEntity.ok(null);
     }
+    var dto = new UserReadDto(user);
+    return ResponseEntity.ok(dto);
+  }
 }

@@ -11,18 +11,18 @@ import java.util.UUID;
 
 @Service
 public class ForumService {
-    @Autowired
-    private ForumRepository forumRepository;
+  @Autowired
+  private ForumRepository forumRepository;
 
-    public List<Forum> getAllForums() {
-        return forumRepository.findAll();
-    }
+  public List<Forum> getAllForums() {
+    return forumRepository.findAll();
+  }
 
-    public Forum getForumById(UUID id) {
-        return forumRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("forum", "id"));
-    }
+  public Forum getForumById(UUID id) {
+    return forumRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("forum", "id"));
+  }
 
-    public Forum createForum(Forum forum) {
-        return forumRepository.save(forum);
-    }
+  public Forum createForum(Forum forum) {
+    return forumRepository.save(forum);
+  }
 }

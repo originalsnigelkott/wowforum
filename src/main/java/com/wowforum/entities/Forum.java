@@ -16,26 +16,26 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Forum {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(name = "id", updatable = false, nullable = false)
+  private UUID id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+  @Column(name = "name", nullable = false)
+  private String name;
 
-    @Column(name = "description", nullable = false)
-    private String description;
+  @Column(name = "description", nullable = false)
+  private String description;
 
-    @OneToMany
-    @JoinColumn(name = "forum_id")
-    private List<Thread> threads;
+  @OneToMany
+  @JoinColumn(name = "forum_id")
+  private List<Thread> threads;
 
-    @ManyToMany
-    @JoinTable(
-            name = "moderators",
-            joinColumns = @JoinColumn(name = "forum_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> moderators;
+  @ManyToMany
+  @JoinTable(
+    name = "moderators",
+    joinColumns = @JoinColumn(name = "forum_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id"))
+  private Set<User> moderators;
 }

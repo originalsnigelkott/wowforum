@@ -2,7 +2,6 @@ package com.wowforum.controllers;
 
 import com.wowforum.dtos.UserCreateDto;
 import com.wowforum.dtos.UserReadDto;
-import com.wowforum.entities.Forum;
 import com.wowforum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,18 +16,18 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
-    private static final String ENDPOINT_NAME = "/api/v1/users/";
+  private static final String ENDPOINT_NAME = "/api/v1/users/";
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserReadDto> createUser(@RequestBody UserCreateDto user) {
-        System.out.println("Inside post mapping user");
-        var createdUser = userService.createUser(user);
-        var uri = URI.create(ENDPOINT_NAME + createdUser.getId());
-        var dto = new UserReadDto(createdUser);
-        return ResponseEntity.created(uri).body(dto);
-    }
+  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserReadDto> createUser(@RequestBody UserCreateDto user) {
+    System.out.println("Inside post mapping user");
+    var createdUser = userService.createUser(user);
+    var uri = URI.create(ENDPOINT_NAME + createdUser.getId());
+    var dto = new UserReadDto(createdUser);
+    return ResponseEntity.created(uri).body(dto);
+  }
 
 }
