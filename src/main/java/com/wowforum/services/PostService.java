@@ -3,7 +3,9 @@ package com.wowforum.services;
 import com.wowforum.configs.MyUserDetailsService;
 import com.wowforum.dtos.PostCreateDto;
 import com.wowforum.entities.Post;
+import com.wowforum.exceptions.BadRequestException;
 import com.wowforum.exceptions.EntityNotFoundException;
+import com.wowforum.exceptions.ForbiddenException;
 import com.wowforum.repositories.PostRepository;
 import com.wowforum.repositories.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,12 @@ public class PostService {
 
   public Post createPost(UUID threadId, PostCreateDto postDto) {
     var thread = threadRepository.findById(threadId).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
+    if (thread.isLocked()) {
+      throw new BadRequestException("Thread is locked.");
+    }
     var creator = userDetailsService.getCurrentUser();
     if (creator == null) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Need to be logged in to complete this request.");
+      throw new ForbiddenException("Need to be logged in to complete this request.");
     }
     var post = new Post(postDto);
     post.setThread(thread);
