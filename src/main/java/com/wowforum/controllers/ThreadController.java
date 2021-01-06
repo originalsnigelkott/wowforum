@@ -1,6 +1,7 @@
 package com.wowforum.controllers;
 
 import com.wowforum.dtos.ThreadCreateDto;
+import com.wowforum.dtos.ThreadUpdateDto;
 import com.wowforum.entities.Thread;
 import com.wowforum.services.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,13 @@ public class ThreadController {
   @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
   public ResponseEntity deleteThread(@PathVariable UUID id) {
     threadService.deleteThread(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping("threads/{id}")
+  @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
+  public ResponseEntity updateThread(@PathVariable UUID id, @RequestBody ThreadUpdateDto updateDto) {
+    threadService.updateThread(id, updateDto);
     return ResponseEntity.noContent().build();
   }
 }
