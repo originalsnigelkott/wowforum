@@ -31,7 +31,7 @@ public class ForumController {
     return ResponseEntity.ok(dtos);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("{id}")
   public ResponseEntity<ForumReadDto> getForumById(@PathVariable UUID id) {
     var forum = forumService.getForumById(id);
     var dto = new ForumReadDto(forum);
@@ -46,7 +46,7 @@ public class ForumController {
     return ResponseEntity.created(uri).body(createdForum);
   }
 
-  @PostMapping("/{forumId}/moderators/{userId}")
+  @PostMapping("{forumId}/moderators/{userId}")
   @Secured("ROLE_ADMIN")
   public ResponseEntity addModerator(@PathVariable UUID forumId, @PathVariable UUID userId ) {
     forumService.addModerator(forumId, userId);

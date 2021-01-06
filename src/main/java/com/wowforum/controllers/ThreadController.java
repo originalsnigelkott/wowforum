@@ -19,19 +19,19 @@ public class ThreadController {
   @Autowired
   private ThreadService threadService;
 
-  @GetMapping("/forums/{forumId}/threads")
+  @GetMapping("forums/{forumId}/threads")
   public ResponseEntity<List<Thread>> getThreadsByForumId(@PathVariable UUID forumId) {
     var threads = threadService.getThreadsByForumId(forumId);
     return ResponseEntity.ok(threads);
   }
 
-  @GetMapping("/threads/{id}")
+  @GetMapping("threads/{id}")
   public ResponseEntity<Thread> getThreadById(@PathVariable UUID id) {
     var thread = threadService.getThreadById(id);
     return ResponseEntity.ok(thread);
   }
 
-  @PostMapping("/forums/{forumId}/threads")
+  @PostMapping("forums/{forumId}/threads")
   public ResponseEntity<Thread> createThread(@PathVariable UUID forumId, @RequestBody ThreadCreateDto thread) {
     var createdThread = threadService.createThread(forumId, thread);
     var uri = URI.create(ENDPOINT_NAME + createdThread.getId());
