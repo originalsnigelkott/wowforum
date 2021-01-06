@@ -28,10 +28,10 @@ public class Thread {
   @Column(name = "topic", nullable = false)
   private String topic;
 
-  @OneToOne(optional = false, cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL)
   private Post initialPost;
 
-  @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Post> posts;
 
   public Thread(ThreadCreateDto threadCreateDto, UUID forumId, User creator) {

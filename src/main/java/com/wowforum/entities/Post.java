@@ -27,7 +27,7 @@ public class Post {
   @JoinColumn(name = "user_id", nullable = false)
   private User creator;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonBackReference
   private Thread thread;
 
