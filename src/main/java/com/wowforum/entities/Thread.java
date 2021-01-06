@@ -34,6 +34,9 @@ public class Thread {
   @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Post> posts;
 
+  @Column(name = "is_locked", columnDefinition = "int default 0")
+  private boolean isLocked;
+
   public Thread(ThreadCreateDto threadCreateDto, UUID forumId, User creator) {
     this.id = UUID.randomUUID();
     this.forumId = forumId;
