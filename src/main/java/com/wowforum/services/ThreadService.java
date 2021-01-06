@@ -3,6 +3,7 @@ package com.wowforum.services;
 import com.wowforum.configs.MyUserDetailsService;
 import com.wowforum.dtos.ThreadCreateDto;
 import com.wowforum.entities.Thread;
+import com.wowforum.entities.User;
 import com.wowforum.exceptions.EntityNotFoundException;
 import com.wowforum.exceptions.ForbiddenException;
 import com.wowforum.repositories.ThreadRepository;
@@ -39,5 +40,24 @@ public class ThreadService {
     var thread = new Thread(threadDto, forumId, creator);
 
     return threadRepository.save(thread);
+  }
+
+  public void deleteThread(UUID id) {
+    var thread = getThreadById(id);
+    checkPermissions(thread.getForumId());
+    threadRepository.delete(thread);
+  }
+
+  private void checkPermissions(UUID forumId) {
+    var user = userDetailsService.getCurrentUser();
+    if (user == null || !hasPermissionToForum(user, forumId)) {
+      throw new ForbiddenException("User lacks permissions to this forum.");
+    }
+  }
+
+  private boolean hasPermissionToForum(User user, UUID forumId) {
+    return user.getRoles().contains("ADMIN") ||
+      user.getModeratedForums().stream()
+        .anyMatch(forum -> forumId.equals(forum.getId()));
   }
 }
