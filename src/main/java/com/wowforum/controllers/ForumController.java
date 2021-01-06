@@ -50,6 +50,13 @@ public class ForumController {
   @Secured("ROLE_ADMIN")
   public ResponseEntity addModerator(@PathVariable UUID forumId, @PathVariable UUID userId ) {
     forumService.addModerator(forumId, userId);
-    return ResponseEntity.ok("OK");
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("{forumId}/moderators/{userId}")
+  @Secured("ROLE_ADMIN")
+  public ResponseEntity deleteModerator(@PathVariable UUID forumId, @PathVariable UUID userId ) {
+    forumService.deleteModerator(forumId, userId);
+    return ResponseEntity.noContent().build();
   }
 }
