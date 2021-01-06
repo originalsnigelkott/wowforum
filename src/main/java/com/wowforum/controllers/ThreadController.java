@@ -5,6 +5,7 @@ import com.wowforum.entities.Thread;
 import com.wowforum.services.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -36,5 +37,12 @@ public class ThreadController {
     var createdThread = threadService.createThread(forumId, thread);
     var uri = URI.create(ENDPOINT_NAME + createdThread.getId());
     return ResponseEntity.created(uri).body(createdThread);
+  }
+
+  @DeleteMapping("threads/{id}")
+  @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
+  public ResponseEntity deleteThread(@PathVariable UUID id) {
+    threadService.deleteThread(id);
+    return ResponseEntity.noContent().build();
   }
 }
