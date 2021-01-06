@@ -56,4 +56,9 @@ public class User {
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();
   }
+
+  public void removeForum(Forum forum) {
+    this.moderatedForums.remove(forum);
+    forum.getModerators().remove(this);
+  }
 }
