@@ -4,6 +4,7 @@ import com.wowforum.configs.MyUserDetailsService;
 import com.wowforum.dtos.ThreadCreateDto;
 import com.wowforum.entities.Thread;
 import com.wowforum.exceptions.EntityNotFoundException;
+import com.wowforum.exceptions.ForbiddenException;
 import com.wowforum.repositories.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class ThreadService {
   public Thread createThread(UUID forumId, ThreadCreateDto threadDto) {
     var creator = userDetailsService.getCurrentUser();
     if (creator == null) {
-      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Need to be logged in to complete this request.");
+      throw new ForbiddenException("Need to be logged in to complete this request.");
     }
 
     var thread = new Thread(threadDto, forumId, creator);
