@@ -2,6 +2,7 @@ package com.wowforum.services;
 
 import com.wowforum.configs.MyUserDetailsService;
 import com.wowforum.dtos.ThreadCreateDto;
+import com.wowforum.dtos.ThreadUpdateDto;
 import com.wowforum.entities.Thread;
 import com.wowforum.entities.User;
 import com.wowforum.exceptions.EntityNotFoundException;
@@ -46,6 +47,14 @@ public class ThreadService {
     var thread = getThreadById(id);
     checkPermissions(thread.getForumId());
     threadRepository.delete(thread);
+  }
+
+  public void updateThread(UUID id, ThreadUpdateDto updateDto) {
+    var thread = getThreadById(id);
+    checkPermissions(thread.getForumId());
+    thread.setTopic(updateDto.getTopic());
+    thread.setLocked(updateDto.isLocked());
+    threadRepository.save(thread);
   }
 
   private void checkPermissions(UUID forumId) {
