@@ -1,6 +1,7 @@
 package com.wowforum.services;
 
 import com.wowforum.entities.Forum;
+import com.wowforum.exceptions.BadRequestException;
 import com.wowforum.exceptions.EntityNotFoundException;
 import com.wowforum.repositories.ForumRepository;
 import com.wowforum.repositories.UserRepository;
@@ -38,5 +39,18 @@ public class ForumService {
     }
     forum.getModerators().add(user);
     forumRepository.save(forum);
+  }
+
+  public void deleteModerator(UUID forumId, UUID userId) {
+    var user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("user", "id"));
+    var forum = forumRepository.findById(forumId).orElseThrow(() -> new EntityNotFoundException("forum", "id"));
+    if(!user.getModeratedForums().contains(forum)) {
+      throw new BadRequestException("This forum is not moderated by that user.");
+    }
+    user.removeForum(forum);
+    if(user.getModeratedForums().size() == 0) {
+      user.setRoles(user.getRoles().replace(",MODERATOR", ""));
+    }
+    userRepository.save(user);
   }
 }
