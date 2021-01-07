@@ -1,5 +1,6 @@
 package com.wowforum.controllers;
 
+import com.wowforum.dtos.BaseForumDto;
 import com.wowforum.dtos.ForumReadDto;
 import com.wowforum.entities.Forum;
 import com.wowforum.services.ForumService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +42,7 @@ public class ForumController {
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured("ROLE_ADMIN")
-  public ResponseEntity<Forum> createForum(@RequestBody Forum forum) {
+  public ResponseEntity<Forum> createForum(@Valid @RequestBody BaseForumDto forum) {
     var createdForum = forumService.createForum(forum);
     var uri = URI.create(ENDPOINT_NAME + createdForum.getId());
     return ResponseEntity.created(uri).body(createdForum);

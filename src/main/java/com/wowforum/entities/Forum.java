@@ -1,5 +1,6 @@
 package com.wowforum.entities;
 
+import com.wowforum.dtos.BaseForumDto;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -36,4 +37,9 @@ public class Forum {
     joinColumns = @JoinColumn(name = "forum_id"),
     inverseJoinColumns = @JoinColumn(name = "user_id"))
   private Set<User> moderators;
+
+  public Forum (BaseForumDto forumDto) {
+    this.name = forumDto.getName();
+    this.description = forumDto.getDescription();
+  }
 }

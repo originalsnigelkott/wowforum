@@ -1,5 +1,6 @@
 package com.wowforum.services;
 
+import com.wowforum.dtos.BaseForumDto;
 import com.wowforum.entities.Forum;
 import com.wowforum.exceptions.BadRequestException;
 import com.wowforum.exceptions.EntityNotFoundException;
@@ -27,7 +28,8 @@ public class ForumService {
     return forumRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("forum", "id"));
   }
 
-  public Forum createForum(Forum forum) {
+  public Forum createForum(BaseForumDto forumDto) {
+    var forum = new Forum(forumDto);
     return forumRepository.save(forum);
   }
 
