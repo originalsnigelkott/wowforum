@@ -1,21 +1,24 @@
 package com.wowforum.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.wowforum.dtos.ThreadCreateDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "threads")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Thread {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Thread implements Serializable {
+  private static final long serialVersionUID = 6424799699130458048L;
   @Id
   @GeneratedValue(generator = "UUID")
   @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -28,10 +31,10 @@ public class Thread {
   @Column(name = "topic", nullable = false)
   private String topic;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Post initialPost;
 
-  @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   private List<Post> posts;
 
   @Column(name = "is_locked", columnDefinition = "int default 0")
