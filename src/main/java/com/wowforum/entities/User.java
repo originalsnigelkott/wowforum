@@ -27,16 +27,16 @@ public class User implements Serializable {
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
 
-  @Column(name = "username", unique = true)
+  @Column(name = "username", unique = true, nullable = false)
   private String username;
 
-  @Column(name = "password")
+  @Column(name = "password", nullable = false)
   private String password;
 
-  @Column(name = "first_name")
+  @Column(name = "first_name", nullable = false)
   private String firstName;
 
-  @Column(name = "last_name")
+  @Column(name = "last_name", nullable = false)
   private String lastName;
 
   @Column(name = "roles")
@@ -59,6 +59,7 @@ public class User implements Serializable {
     this.username = user.getUsername();
     this.firstName = user.getFirstName();
     this.lastName = user.getLastName();
+    this.moderatedForums = Set.of();
   }
 
   public void removeForum(Forum forum) {

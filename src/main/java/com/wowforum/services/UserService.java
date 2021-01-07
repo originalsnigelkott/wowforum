@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -23,8 +24,8 @@ public class UserService {
   private MyUserDetailsService userDetailsService;
 
   public User createUser(UserCreateDto userCreateDto) {
-    if (userCreateDto.getUsername().equals("anonymousUser")) {
-      throw new BadRequestException("Username cannot be anonymousUser.");
+    if (userCreateDto.getUsername().equals("anonymousUser") || userRepository.existsUserByUsername(userCreateDto.getUsername())) {
+      throw new BadRequestException("Username is taken.");
     }
     var user = new User(userCreateDto);
     user.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
