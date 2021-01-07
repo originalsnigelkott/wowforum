@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -56,7 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .logout()
           .logoutUrl("/api/auth/logout")
           .logoutSuccessHandler(logoutSuccessHandler())
-          .deleteCookies("JSESSIONID");
+          .deleteCookies("JSESSIONID")
+          .and()
+      .exceptionHandling()
+        .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
   }
 
   @Bean
