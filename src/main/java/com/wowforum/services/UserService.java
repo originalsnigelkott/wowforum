@@ -3,6 +3,7 @@ package com.wowforum.services;
 import com.wowforum.configs.MyUserDetailsService;
 import com.wowforum.dtos.UserCreateDto;
 import com.wowforum.entities.User;
+import com.wowforum.exceptions.BadRequestException;
 import com.wowforum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,9 +23,12 @@ public class UserService {
   private MyUserDetailsService userDetailsService;
 
   public User createUser(UserCreateDto userCreateDto) {
+    if (userCreateDto.getUsername().equals("anonymousUser")) {
+      throw new BadRequestException("Username cannot be anonymousUser.");
+    }
     var user = new User(userCreateDto);
     user.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
-    if (currentUserIsAdmin()) {
+    if (currentUserIsAdmin() && user.getRoles() != null && !user.getRoles().isBlank()) {
       user.setRoles(userCreateDto.getRoles());
     } else {
       user.setRoles("USER");
