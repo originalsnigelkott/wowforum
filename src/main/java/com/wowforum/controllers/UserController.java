@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class UserController {
   private UserService userService;
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserReadDto> createUser(@RequestBody UserCreateDto user) {
+  public ResponseEntity<UserReadDto> createUser(@Valid @RequestBody UserCreateDto user) {
     var createdUser = userService.createUser(user);
     var uri = URI.create(ENDPOINT_NAME + createdUser.getId());
     var dto = new UserReadDto(createdUser);
