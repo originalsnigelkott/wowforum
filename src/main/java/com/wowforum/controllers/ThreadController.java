@@ -1,8 +1,8 @@
 package com.wowforum.controllers;
 
 import com.wowforum.dtos.ThreadCreateDto;
+import com.wowforum.dtos.ThreadReadDto;
 import com.wowforum.dtos.ThreadUpdateDto;
-import com.wowforum.entities.Thread;
 import com.wowforum.services.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -22,22 +23,27 @@ public class ThreadController {
   private ThreadService threadService;
 
   @GetMapping("forums/{forumId}/threads")
-  public ResponseEntity<List<Thread>> getThreadsByForumId(@PathVariable UUID forumId) {
+  public ResponseEntity<List<ThreadReadDto>> getThreadsByForumId(@PathVariable UUID forumId) {
     var threads = threadService.getThreadsByForumId(forumId);
-    return ResponseEntity.ok(threads);
+    var dtos =  threads.stream()
+      .map(thread -> new ThreadReadDto(thread, 3L))
+      .collect(Collectors.toList());
+    return ResponseEntity.ok(dtos);
   }
 
   @GetMapping("threads/{id}")
-  public ResponseEntity<Thread> getThreadById(@PathVariable UUID id) {
+  public ResponseEntity<ThreadReadDto> getThreadById(@PathVariable UUID id) {
     var thread = threadService.getThreadById(id);
-    return ResponseEntity.ok(thread);
+    var dto = new ThreadReadDto(thread);
+    return ResponseEntity.ok(dto);
   }
 
   @PostMapping("forums/{forumId}/threads")
-  public ResponseEntity<Thread> createThread(@PathVariable UUID forumId, @RequestBody ThreadCreateDto thread) {
+  public ResponseEntity<ThreadReadDto> createThread(@PathVariable UUID forumId, @RequestBody ThreadCreateDto thread) {
     var createdThread = threadService.createThread(forumId, thread);
+    var dto = new ThreadReadDto(createdThread);
     var uri = URI.create(ENDPOINT_NAME + createdThread.getId());
-    return ResponseEntity.created(uri).body(createdThread);
+    return ResponseEntity.created(uri).body(dto);
   }
 
   @DeleteMapping("threads/{id}")

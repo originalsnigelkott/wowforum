@@ -16,6 +16,14 @@ public class ThreadReadDto extends BaseThreadDto {
   private UUID id;
   private List<PostReadDto> posts;
 
+  public ThreadReadDto(Thread thread) {
+    super(thread.getTopic(), new PostReadDto(thread.getInitialPost()));
+    this.id = thread.getId();
+    this.posts = thread.getPosts().stream()
+      .map(post -> new PostReadDto(post))
+      .collect(Collectors.toList());
+  }
+
   public ThreadReadDto(Thread thread, Long postLimit) {
     super(thread.getTopic(), new PostReadDto(thread.getInitialPost()));
     this.id = thread.getId();
