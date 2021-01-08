@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BasePostDto {
-  @NotBlank(message = "Description is mandatory.")
-  @Size(min = 3, message = "Description must at least 3 characters.")
+  @NotBlank(message = "Content is mandatory.")
+  @Size(min = 3, message = "Content must at least {min} characters.")
   private String content;
   @NotNull
   @JsonProperty
