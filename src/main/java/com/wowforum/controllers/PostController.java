@@ -2,7 +2,6 @@ package com.wowforum.controllers;
 
 import com.wowforum.dtos.PostCreateDto;
 import com.wowforum.dtos.PostReadDto;
-import com.wowforum.entities.Post;
 import com.wowforum.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -22,21 +22,23 @@ public class PostController {
   private PostService postService;
 
   @GetMapping("threads/{threadId}/posts")
-  public ResponseEntity<List<Post>> getPostsByThreadId(@PathVariable UUID threadId) {
+  public ResponseEntity<List<PostReadDto>> getPostsByThreadId(@PathVariable UUID threadId) {
     var posts = postService.getPostsByThreadId(threadId);
-    return ResponseEntity.ok(posts);
+    var dtos = posts.stream()
+      .map(post -> new PostReadDto(post))
+      .collect(Collectors.toList());
+    return ResponseEntity.ok(dtos);
   }
 
   @GetMapping("posts/{id}")
-  public ResponseEntity<Post> getPostById(@PathVariable UUID id) {
+  public ResponseEntity<PostReadDto> getPostById(@PathVariable UUID id) {
     var post = postService.getPostById(id);
-    return ResponseEntity.ok(post);
+    var dto = new PostReadDto(post);
+    return ResponseEntity.ok(dto);
   }
 
   @PostMapping("threads/{threadId}/posts")
   public ResponseEntity<PostReadDto> createPost(@PathVariable UUID threadId, @Valid @RequestBody PostCreateDto post) {
-    var bool = post.isWarning();
-    System.out.println("Bool is: " + bool);
     var createdPost = postService.createPost(threadId, post);
     var dto = new PostReadDto(createdPost);
     var uri = URI.create(ENDPOINT_NAME + createdPost.getId());
