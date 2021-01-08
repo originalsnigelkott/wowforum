@@ -9,11 +9,20 @@
         <textarea
           id="content-input"
           class="input-field"
-          v-model="content"
+          v-model="post.content"
           rows="4"
+          minlength="3"
           autofocus
           required
         ></textarea>
+        <label for="warning-input" class="warning">Warning message?</label>
+        <input
+          id="warning-input"
+          class="warning"
+          v-if="canWriteWarning"
+          type="checkbox"
+          v-model="post.isWarning"
+        />
       </div>
       <button :disabled="processing" type="submit" class="btn submit-btn">
         Create post
@@ -33,7 +42,10 @@ class PostForm extends Vue {
   canWriteWarning;
 
   processing = false;
-  content = null;
+  post = {
+    content: null,
+    isWarning: false,
+  };
 
   async createPost() {
     this.processing = true;
@@ -43,7 +55,7 @@ class PostForm extends Vue {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: this.content }),
+        body: JSON.stringify(this.post),
       }
     );
     await this.handleResponse(response);
@@ -55,7 +67,8 @@ class PostForm extends Vue {
       case 201: {
         const post = await response.json();
         this.$emit("addPost", post);
-        this.content = null;
+        this.post.content = null;
+        this.post.isWarning = false;
         break;
       }
       default: {
@@ -78,4 +91,13 @@ export default PostForm;
   border-top: turquoise solid 1px;
   padding: 10px;
 }
+.warning {
+  align-self: flex-end;
+}
+#warning-input {
+  margin-top: 4px;
+  height: 20px;
+  width: 20px;
+}
+
 </style>
