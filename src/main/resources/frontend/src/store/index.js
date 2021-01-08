@@ -31,5 +31,7 @@ export default new Vuex.Store({
       if (router.currentRoute.name != "Home") router.push({ name: "Home" });
     },
   },
-  modules: {},
+  getters: {
+    currentUser: state => state.currentUser,
+  },
 });
