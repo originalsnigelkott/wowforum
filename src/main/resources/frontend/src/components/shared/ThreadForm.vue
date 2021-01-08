@@ -66,6 +66,7 @@ class ThreadForm extends Vue {
         const thread = await response.json();
         this.$emit("addThread", thread);
         this.content = null;
+        this.topic = null;
         break;
       }
       default: {
