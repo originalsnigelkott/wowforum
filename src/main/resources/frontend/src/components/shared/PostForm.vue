@@ -15,14 +15,15 @@
           autofocus
           required
         ></textarea>
-        <label for="warning-input" class="warning">Warning message?</label>
-        <input
-          id="warning-input"
-          class="warning"
-          v-if="canWriteWarning"
-          type="checkbox"
-          v-model="post.isWarning"
-        />
+        <div class="col" v-if="canWriteWarning">
+          <label for="warning-input" class="warning">Warning message?</label>
+          <input
+            id="warning-input"
+            class="warning"
+            type="checkbox"
+            v-model="post.isWarning"
+          />
+        </div>
       </div>
       <button :disabled="processing" type="submit" class="btn submit-btn">
         Create post
@@ -99,5 +100,4 @@ export default PostForm;
   height: 20px;
   width: 20px;
 }
-
 </style>
