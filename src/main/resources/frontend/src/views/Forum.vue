@@ -9,8 +9,6 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
-import { BASE_VERSION_URL } from "@/app-strings";
-import { fetchWithCredentials } from "@/utils";
 import ForumItem from "@/components/shared/ForumItem";
 import ThreadForm from "@/components/shared/ThreadForm";
 
@@ -18,7 +16,9 @@ import ThreadForm from "@/components/shared/ThreadForm";
   components: { ForumItem, ThreadForm },
 })
 class Forum extends Vue {
-  forum = {};
+  get forum() {
+    return this.$store.state.forum;
+  }
 
   get currentUser() {
     return this.$store.state.currentUser;
@@ -32,17 +32,9 @@ class Forum extends Vue {
     this.forum.threads.push(thread);
   }
 
-  async created() {
+  created() {
     const forumId = this.$route.params.id;
-    const data = await fetchWithCredentials(
-      `${BASE_VERSION_URL}/forums/${forumId}`
-    );
-    try {
-      const forum = await data.json();
-      this.forum = forum;
-    } catch {
-      console.error("An error occured while loading the threads.");
-    }
+    this.$store.dispatch("fetchForum", forumId);
   }
 }
 
