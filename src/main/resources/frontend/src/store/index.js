@@ -18,6 +18,15 @@ export default new Vuex.Store({
     setForum(state, data) {
       state.forum = data;
     },
+    removeThread(state, data) {
+      console.log(state.forum.threads);
+      if (Object.keys(state.forum).length) {
+        state.forum.threads = state.forum.threads.filter(
+          (thread) => thread.id != data.threadId
+        );
+      }
+      console.log(state.forum.threads);
+    },
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -44,6 +53,16 @@ export default new Vuex.Store({
       } catch {
         console.error("An error occured while loading the threads.");
       }
+    },
+    async deleteThread({ commit }, ids) {
+      const data = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/threads/${ids.threadId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      console.log(data);
+      commit("removeThread", ids);
     },
   },
   getters: {
