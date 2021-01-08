@@ -2,7 +2,6 @@ package com.wowforum.controllers;
 
 import com.wowforum.dtos.BaseForumDto;
 import com.wowforum.dtos.ForumReadDto;
-import com.wowforum.entities.Forum;
 import com.wowforum.services.ForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -42,10 +41,11 @@ public class ForumController {
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @Secured("ROLE_ADMIN")
-  public ResponseEntity<Forum> createForum(@Valid @RequestBody BaseForumDto forum) {
+  public ResponseEntity<ForumReadDto> createForum(@Valid @RequestBody BaseForumDto forum) {
     var createdForum = forumService.createForum(forum);
+    var dto = new ForumReadDto(createdForum);
     var uri = URI.create(ENDPOINT_NAME + createdForum.getId());
-    return ResponseEntity.created(uri).body(createdForum);
+    return ResponseEntity.created(uri).body(dto);
   }
 
   @PostMapping("{forumId}/moderators/{userId}")
