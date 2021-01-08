@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +40,7 @@ public class ThreadController {
   }
 
   @PostMapping("forums/{forumId}/threads")
-  public ResponseEntity<ThreadReadDto> createThread(@PathVariable UUID forumId, @RequestBody ThreadCreateDto thread) {
+  public ResponseEntity<ThreadReadDto> createThread(@PathVariable UUID forumId, @Valid @RequestBody ThreadCreateDto thread) {
     var createdThread = threadService.createThread(forumId, thread);
     var dto = new ThreadReadDto(createdThread);
     var uri = URI.create(ENDPOINT_NAME + createdThread.getId());
@@ -55,7 +56,7 @@ public class ThreadController {
 
   @PutMapping("threads/{id}")
   @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
-  public ResponseEntity updateThread(@PathVariable UUID id, @RequestBody ThreadUpdateDto updateDto) {
+  public ResponseEntity updateThread(@PathVariable UUID id, @Valid @RequestBody ThreadUpdateDto updateDto) {
     threadService.updateThread(id, updateDto);
     return ResponseEntity.noContent().build();
   }

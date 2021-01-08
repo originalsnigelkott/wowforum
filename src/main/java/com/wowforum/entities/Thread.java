@@ -47,5 +47,6 @@ public class Thread implements Serializable {
     this.initialPost = new Post(threadCreateDto.getInitialPost());
     this.initialPost.setThread(this);
     this.initialPost.setCreator(creator);
+    this.posts = List.of(this.initialPost);
   }
 }
