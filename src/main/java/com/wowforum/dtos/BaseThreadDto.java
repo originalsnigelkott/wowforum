@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class BaseThreadDto {
   private String topic;
   private PostReadDto initialPost;
+  private boolean isLocked;
 }
