@@ -45,6 +45,7 @@ public class Post implements Serializable {
 
   public Post(PostCreateDto postCreateDto) {
     this.content = postCreateDto.getContent();
+    this.isWarning = postCreateDto.isWarning();
     this.created = Instant.now().toEpochMilli();
   }
 }

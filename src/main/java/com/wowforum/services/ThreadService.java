@@ -64,7 +64,7 @@ public class ThreadService {
     }
   }
 
-  private boolean hasPermissionToForum(User user, UUID forumId) {
+  public boolean hasPermissionToForum(User user, UUID forumId) {
     return user.getRoles().contains("ADMIN") ||
       user.getModeratedForums().stream()
         .anyMatch(forum -> forumId.equals(forum.getId()));

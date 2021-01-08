@@ -1,12 +1,14 @@
 package com.wowforum.controllers;
 
 import com.wowforum.dtos.PostCreateDto;
+import com.wowforum.dtos.PostReadDto;
 import com.wowforum.entities.Post;
 import com.wowforum.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -32,9 +34,12 @@ public class PostController {
   }
 
   @PostMapping("threads/{threadId}/posts")
-  public ResponseEntity<Post> createPost(@PathVariable UUID threadId, @RequestBody PostCreateDto post) {
+  public ResponseEntity<PostReadDto> createPost(@PathVariable UUID threadId, @Valid @RequestBody PostCreateDto post) {
+    var bool = post.isWarning();
+    System.out.println("Bool is: " + bool);
     var createdPost = postService.createPost(threadId, post);
+    var dto = new PostReadDto(createdPost);
     var uri = URI.create(ENDPOINT_NAME + createdPost.getId());
-    return ResponseEntity.created(uri).body(createdPost);
+    return ResponseEntity.created(uri).body(dto);
   }
 }

@@ -27,6 +27,9 @@ public class PostService {
   @Autowired
   private ThreadRepository threadRepository;
 
+  @Autowired
+  private ThreadService threadService;
+
   public List<Post> getPostsByThreadId(UUID threadId) {
     return postRepository.findAllByThreadId(threadId);
   }
@@ -43,6 +46,9 @@ public class PostService {
     var creator = userDetailsService.getCurrentUser();
     if (creator == null) {
       throw new ForbiddenException("Need to be logged in to complete this request.");
+    }
+    if (!threadService.hasPermissionToForum(creator, thread.getForumId())) {
+      postDto.setWarning(false);
     }
     var post = new Post(postDto);
     post.setThread(thread);
