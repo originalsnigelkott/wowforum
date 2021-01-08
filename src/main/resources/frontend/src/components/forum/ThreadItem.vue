@@ -5,15 +5,19 @@
     @click.stop="canNavigate && navigate()"
   >
     <div class="header">
-      <h4 class="title" :style="styleObject">{{ thread.topic }}</h4>
+      <h4 class="title" :style="styleObject">
+        {{ thread.topic }}
+        <LockedThreadMessage v-if="thread.locked" />
+      </h4>
     </div>
   </div>
 </template>
 
 <script>
 import { Vue, Component, Prop } from "vue-property-decorator";
+import LockedThreadMessage from "@/components/shared/LockedThreadMessage";
 
-@Component()
+@Component({ components: { LockedThreadMessage } })
 class ThreadItem extends Vue {
   @Prop({ required: true })
   thread;
