@@ -13,7 +13,7 @@
     <div class="action-buttons row center-xy">
       <div
         v-if="isModerator"
-        @click.stop="deleteThread()"
+        @click.stop="toggleThreadLock()"
         @mouseenter="setLockHover(true)"
         @mouseleave="setLockHover(false)"
         class="action-btn row center-xy pointer"
@@ -56,7 +56,8 @@
 
 <script>
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { hasModerationRights } from "@/utils";
+import { hasModerationRights, fetchWithCredentials } from "@/utils";
+import { BASE_VERSION_URL } from "@/app-strings";
 import LockedThreadMessage from "@/components/shared/LockedThreadMessage";
 
 @Component({ components: { LockedThreadMessage } })
@@ -84,6 +85,24 @@ class ThreadItem extends Vue {
 
   navigate() {
     this.$router.push({ name: "Thread", params: { id: this.thread.id } });
+  }
+
+  async toggleThreadLock() {
+    const payload = {
+      topic: this.thread.topic,
+      isLocked: !this.thread.locked,
+    };
+    const response = await fetchWithCredentials(
+      `${BASE_VERSION_URL}/threads/${this.thread.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
+    if (response.status === 204) {
+      this.thread.locked = !this.thread.locked;
+    }
   }
 
   deleteThread() {
