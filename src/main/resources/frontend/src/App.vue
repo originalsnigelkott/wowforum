@@ -114,4 +114,10 @@ button {
     box-shadow: white 0 0 2px;
   }
 }
+
+.material-design-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
