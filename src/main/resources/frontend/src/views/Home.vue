@@ -25,7 +25,7 @@ export default Home;
 
 <style lang="scss" scoped>
 .content {
-  widows: 100%;
+  width: 100%;
   border: turquoise solid 1px;
   .header {
     padding: 10px;
