@@ -39,7 +39,6 @@ class ThreadItem extends Vue {
   }
 
   get isModerator() {
-    console.log(hasModerationRights(this.thread.forumId));
     return hasModerationRights(this.thread.forumId);
   }
 

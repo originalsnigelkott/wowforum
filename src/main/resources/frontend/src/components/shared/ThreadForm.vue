@@ -9,7 +9,7 @@
         <input
           id="topic-input"
           class="input-field"
-          v-model="topic"
+          v-model="thread.topic"
           autofocus
           required
         />
@@ -18,10 +18,19 @@
         <textarea
           id="content-input"
           class="input-field"
-          v-model="content"
+          v-model="thread.initialPost.content"
           rows="4"
           required
         ></textarea>
+        <div class="col" v-if="canWriteWarning">
+          <label for="warning-input" class="warning">Warning message?</label>
+          <input
+            id="warning-input"
+            class="warning"
+            type="checkbox"
+            v-model="thread.initialPost.isWarning"
+          />
+        </div>
       </div>
       <button :disabled="processing" type="submit" class="btn submit-btn">
         Create post
@@ -31,29 +40,33 @@
 </template>
 
 <script>
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { BASE_VERSION_URL } from "@/app-strings";
 import { fetchWithCredentials } from "@/utils";
 
 @Component()
 class ThreadForm extends Vue {
+  @Prop({ default: false })
+  canWriteWarning;
+
   processing = false;
-  topic = null;
-  content = null;
+  thread = {
+    topic: null,
+    initialPost: {
+      content: null,
+      isWarning: false,
+    },
+  };
 
   async createThread() {
     this.processing = true;
     const forumId = this.$route.params.id;
-    const payload = {
-      topic: this.topic,
-      initialPost: { content: this.content },
-    };
     const response = await fetchWithCredentials(
       `${BASE_VERSION_URL}/forums/${forumId}/threads`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(this.thread),
       }
     );
     await this.handleResponse(response);
@@ -65,8 +78,8 @@ class ThreadForm extends Vue {
       case 201: {
         const thread = await response.json();
         this.$emit("addThread", thread);
-        this.content = null;
-        this.topic = null;
+        this.thread.initialPost.content = null;
+        this.thread.topic = null;
         break;
       }
       default: {

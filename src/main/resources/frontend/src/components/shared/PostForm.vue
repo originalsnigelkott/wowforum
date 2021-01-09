@@ -92,12 +92,4 @@ export default PostForm;
   border-top: turquoise solid 1px;
   padding: 10px;
 }
-.warning {
-  align-self: flex-end;
-}
-#warning-input {
-  margin-top: 4px;
-  height: 20px;
-  width: 20px;
-}
 </style>

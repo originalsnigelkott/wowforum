@@ -3,12 +3,17 @@
     <div class="content">
       <ForumItem :forum="forum" :canNavigate="false" />
     </div>
-    <ThreadForm v-if="currentUser" @addThread="addThread($event)" />
+    <ThreadForm
+      v-if="currentUser"
+      :canWriteWarning="isModerator"
+      @addThread="addThread($event)"
+    />
   </div>
 </template>
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
+import { hasModerationRights } from "@/utils";
 import ForumItem from "@/components/shared/ForumItem";
 import ThreadForm from "@/components/shared/ThreadForm";
 
@@ -26,6 +31,10 @@ class Forum extends Vue {
 
   get threads() {
     return this.forum.threads ? this.forum.threads : [];
+  }
+
+  get isModerator() {
+    return hasModerationRights(this.forum.id);
   }
 
   addThread(thread) {
