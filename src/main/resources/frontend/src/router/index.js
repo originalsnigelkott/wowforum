@@ -5,6 +5,7 @@ import Forum from "@/views/Forum";
 import Thread from "@/views/Thread";
 import Login from "@/views/Login";
 import SignUp from "@/views/SignUp";
+import Admin from "@/views/Admin";
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,11 @@ const routes = [
     path: "/signup",
     name: "SignUp",
     component: SignUp,
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
   },
   {
     path: "*",
