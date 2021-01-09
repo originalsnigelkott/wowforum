@@ -1,5 +1,5 @@
 <template>
-  <div class="view">
+  <div class="view col center-y">
     <div class="content">
       <div class="header">
         <h2 class="title">Forums</h2>
@@ -25,6 +25,7 @@ export default Home;
 
 <style lang="scss" scoped>
 .content {
+  widows: 100%;
   border: turquoise solid 1px;
   .header {
     padding: 10px;
