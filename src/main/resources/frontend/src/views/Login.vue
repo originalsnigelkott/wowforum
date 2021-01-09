@@ -48,6 +48,7 @@ class Login extends Vue {
   }
 
   async login() {
+    this.error = null;
     this.processing = true;
     const response = await this.attemptLogin();
     await this.handleResponse(response);
@@ -71,7 +72,6 @@ class Login extends Vue {
   }
 
   async handleResponse(response) {
-    console.log("Handling response ", response);
     switch (response.status) {
       case 200: {
         await this.$store.dispatch("getCurrentUser");
