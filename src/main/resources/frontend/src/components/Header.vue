@@ -1,6 +1,9 @@
 <template>
   <div class="header">
     <div class="header-content row center-xy">
+      <button v-if="isAdmin" @click="navigateTo('Admin')" class="admin-btn btn">
+        Admin
+      </button>
       <h1 @click="navigateTo('Home')" class="title pointer">Wow forum</h1>
       <button
         v-if="shouldShowLoginButton"
@@ -9,11 +12,7 @@
       >
         Login
       </button>
-      <button
-        v-if="shouldShowLogoutButton"
-        @click="logout()"
-        class="auth-btn btn"
-      >
+      <button v-if="currentUser" @click="logout()" class="auth-btn btn">
         Logout
       </button>
     </div>
@@ -25,16 +24,20 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component()
 class Header extends Vue {
-  get shouldShowLoginButton() {
-    return this.$route.name != "Login" && !this.$store.state.currentUser;
-  }
-
-  get shouldShowLogoutButton() {
+  get currentUser() {
     return this.$store.state.currentUser;
   }
 
+  get shouldShowLoginButton() {
+    return this.$route.name != "Login" && !this.currentUser;
+  }
+
+  get isAdmin() {
+    return this.currentUser?.roles.includes("ADMIN");
+  }
+
   navigateTo(routeName) {
-    if (this.$route.name !=routeName) this.$router.push({ name: routeName });
+    if (this.$route.name != routeName) this.$router.push({ name: routeName });
   }
 
   logout() {
@@ -65,15 +68,20 @@ export default Header;
         box-shadow: none;
       }
     }
-    .auth-btn {
+    .btn {
       position: fixed;
-      right: 50px;
       background-color: hotpink;
       color: turquoise;
       font-weight: bold;
       &:hover {
         background-color: rgba(255, 105, 180, 0.938);
       }
+    }
+    .auth-btn {
+      right: 50px;
+    }
+    .admin-btn {
+      left: 50px;
     }
   }
 }
