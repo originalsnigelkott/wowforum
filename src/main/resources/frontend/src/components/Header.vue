@@ -85,4 +85,13 @@ export default Header;
     }
   }
 }
+
+@media screen and (max-width: 415px) {
+  .auth-btn {
+    right: 5px !important;
+  }
+  .admin-btn {
+    left: 5px !important;
+  }
+}
 </style>

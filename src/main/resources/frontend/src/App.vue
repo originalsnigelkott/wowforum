@@ -120,4 +120,10 @@ button {
   justify-content: center;
   align-items: center;
 }
+
+@media screen and (max-width: 650px) {
+  .view {
+  padding: 5px 5px !important;
+}
+}
 </style>
