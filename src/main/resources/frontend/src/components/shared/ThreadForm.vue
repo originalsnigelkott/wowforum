@@ -12,6 +12,8 @@
           v-model="thread.topic"
           autofocus
           required
+          minlength="3"
+          maxlength="60"
         />
 
         <label for="content-input">Content</label>
@@ -21,6 +23,7 @@
           v-model="thread.initialPost.content"
           rows="4"
           required
+          minlength="3"
         ></textarea>
         <div class="col" v-if="canWriteWarning">
           <label for="warning-input" class="warning">Warning message?</label>

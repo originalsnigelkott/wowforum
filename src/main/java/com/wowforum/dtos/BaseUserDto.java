@@ -15,10 +15,10 @@ public class BaseUserDto {
   @Size(min = 3, max = 40, message = "Username must be between {min} and {max} characters.")
   private String username;
   @NotBlank(message = "First name is mandatory.")
-  @Size(min = 3, max = 40, message = "First name must be between {min} and {max} characters.")
+  @Size(min = 1, max = 40, message = "First name must be between {min} and {max} characters.")
   private String firstName;
   @NotBlank(message = "First name is mandatory.")
-  @Size(min = 3, max = 40, message = "First name must be between {min} and {max} characters.")
+  @Size(min = 1, max = 40, message = "First name must be between {min} and {max} characters.")
   private String lastName;
   private String roles;
 }

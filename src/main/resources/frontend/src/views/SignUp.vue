@@ -10,6 +10,8 @@
           v-model="username"
           autofocus
           required
+          minlength="3"
+          maxlength="40"
         />
         <label for="password-input">Password</label>
         <input
@@ -27,6 +29,8 @@
           class="input-field"
           v-model="firstName"
           required
+          minlength="1"
+          maxlength="40"
         />
         <label for="lastname-input">Last name</label>
         <input
@@ -35,6 +39,8 @@
           class="input-field"
           v-model="lastName"
           required
+          minlength="1"
+          maxlength="40"
         />
       </div>
       <button :disabled="processing" type="submit" class="btn submit-btn">
@@ -82,7 +88,7 @@ class SignUp extends Vue {
   async handleResponse(response) {
     switch (response.status) {
       case 201: {
-        this.$router.push({ name: "Login" })
+        this.$router.push({ name: "Login" });
         break;
       }
       default: {

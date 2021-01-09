@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class ThreadCreateDto {
   @NotBlank(message = "Topic is mandatory.")
-  @Size(min = 3, max = 40, message = "Topic must be between {min} and {max} characters.")
+  @Size(min = 3, max = 60, message = "Topic must be between {min} and {max} characters.")
   private String topic;
   @NotNull
   @Valid
