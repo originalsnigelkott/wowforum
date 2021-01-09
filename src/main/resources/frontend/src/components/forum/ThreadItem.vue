@@ -10,12 +10,46 @@
         <LockedThreadMessage v-if="thread.locked" />
       </h4>
     </div>
-    <div
-      v-if="isModerator"
-      @click.stop="deleteThread()"
-      class="delete-btn row center-xy pointer"
-    >
-      <span class="delete-icon">&#x1f5d1;</span>
+    <div class="action-buttons row center-xy">
+      <div
+        v-if="isModerator"
+        @click.stop="deleteThread()"
+        @mouseenter="setLockHover(true)"
+        @mouseleave="setLockHover(false)"
+        class="action-btn row center-xy pointer"
+      >
+        <div v-if="thread.locked">
+          <LockIcon
+            title="Unlock thread"
+            v-if="!lockHover"
+            fillColor="#FF0000"
+          ></LockIcon>
+          <LockOpenIcon
+            title="Unlock thread"
+            v-if="lockHover"
+            fillColor="#008000"
+          ></LockOpenIcon>
+        </div>
+        <div v-if="!thread.locked">
+          <LockOpenIcon
+            title="Lock thread"
+            v-if="!lockHover"
+            fillColor="#008000"
+          ></LockOpenIcon>
+          <LockIcon
+            title="Lock thread"
+            v-if="lockHover"
+            fillColor="#FF0000"
+          ></LockIcon>
+        </div>
+      </div>
+      <div
+        v-if="isModerator"
+        @click.stop="deleteThread()"
+        class="action-btn row center-xy pointer"
+      >
+        <DeleteIcon title="Delete thread" fillColor="#FF0000"></DeleteIcon>
+      </div>
     </div>
   </div>
 </template>
@@ -34,12 +68,18 @@ class ThreadItem extends Vue {
   @Prop({ default: true })
   canNavigate;
 
+  lockHover = false;
+
   get styleObject() {
     return { fontSize: this.fontSize + "px" };
   }
 
   get isModerator() {
     return hasModerationRights(this.thread.forumId);
+  }
+
+  setLockHover(status) {
+    this.lockHover = status;
   }
 
   navigate() {
@@ -62,14 +102,10 @@ export default ThreadItem;
   .header {
     padding: 5px 10px;
   }
-  .delete-btn {
+  .action-btn {
     width: 30px;
     height: 30px;
-    font-size: 20px;
     margin-right: 10px;
-    .delete-icon {
-      color: red;
-    }
   }
 }
 </style>
