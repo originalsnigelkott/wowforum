@@ -23,7 +23,7 @@ public class UserService {
   private MyUserDetailsService userDetailsService;
 
   public User createUser(UserCreateDto userCreateDto) {
-    if (userCreateDto.getUsername().equals("anonymousUser") || userRepository.existsUserByUsername(userCreateDto.getUsername())) {
+    if (userCreateDto.getUsername().equals("anonymousUser") || userRepository.existsUserByUsernameIgnoreCase(userCreateDto.getUsername())) {
       throw new BadRequestException("Username is taken.");
     }
     var user = new User(userCreateDto);
@@ -37,7 +37,6 @@ public class UserService {
   }
 
   public List<User> getUsers(String username) {
-    System.out.println(username);
     if(username == null || username.isBlank()) {
       return userRepository.findAll();
     }
