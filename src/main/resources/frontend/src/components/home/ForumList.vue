@@ -8,24 +8,18 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
-import { fetchWithCredentials } from "@/utils"
-import { BASE_VERSION_URL } from "@/app-strings";
 import ForumItem from "@/components/shared/ForumItem";
 
 @Component({
   components: { ForumItem },
 })
 class ForumList extends Vue {
-  forums = [];
+  get forums() {
+    return this.$store.state.forums;
+  }
 
   async created() {
-    const data = await fetchWithCredentials(`${BASE_VERSION_URL}/forums`);
-    try {
-      const forums = await data.json();
-      this.forums = forums;
-    } catch {
-      console.error("An error occured while loading the forums.");
-    }
+    await this.$store.dispatch("fetchForums");
   }
 }
 
