@@ -19,13 +19,11 @@ export default new Vuex.Store({
       state.forum = data;
     },
     removeThread(state, data) {
-      console.log(state.forum.threads);
       if (Object.keys(state.forum).length) {
         state.forum.threads = state.forum.threads.filter(
           (thread) => thread.id != data.threadId
         );
       }
-      console.log(state.forum.threads);
     },
   },
   actions: {
