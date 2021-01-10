@@ -6,6 +6,7 @@
       </div>
       <div class="controls col">
         <FindUsersForm />
+        <UserList />
       </div>
     </div>
   </div>
@@ -14,9 +15,10 @@
 <script>
 import { Vue, Component } from "vue-property-decorator";
 import FindUsersForm from "@/components/admin/FindUsersForm";
+import UserList from "@/components/admin/UserList"
 
 @Component({
-  components: { FindUsersForm },
+  components: { FindUsersForm, UserList },
 })
 class Admin extends Vue {
   get currentUser() {
@@ -28,9 +30,9 @@ class Admin extends Vue {
   }
 
   created() {
-    if (!this.currentUser?.roles.includes("ADMIN")) {
-      this.$router.push({ name: "Home" });
-    }
+    // if (!this.currentUser?.roles.includes("ADMIN")) {
+    //   this.$router.push({ name: "Home" });
+    // }
   }
 }
 
