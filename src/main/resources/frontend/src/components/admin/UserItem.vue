@@ -14,15 +14,18 @@
       </div>
     </div>
     <div class="user-controls">
-      Controls go here
+      <UserControls :user="user" />
     </div>
   </div>
 </template>
 
 <script>
 import { Vue, Component, Prop } from "vue-property-decorator";
+import UserControls from "./UserControls";
 
-@Component()
+@Component({
+  components: { UserControls }
+})
 class UserItem extends Vue {
   @Prop({ required: true })
   user;
