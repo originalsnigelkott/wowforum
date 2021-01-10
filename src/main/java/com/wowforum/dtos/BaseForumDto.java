@@ -11,10 +11,10 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseForumDto {
-  @NotBlank(message = "Name can not be blank.")
-  @Size(min = 3, max = 40, message = "Name must be between 3 and 40 characters.")
+  @NotBlank(message = "Name is mandatory.")
+  @Size(min = 3, max = 60, message = "Name must be between {min} and {max} characters.")
   private String name;
-  @NotBlank(message = "Description can not be blank.")
-  @Size(min = 3, message = "Description must at least 3 characters.")
+  @NotBlank(message = "Description is mandatory.")
+  @Size(min = 3, message = "Description must at least {min} characters.")
   private String description;
 }

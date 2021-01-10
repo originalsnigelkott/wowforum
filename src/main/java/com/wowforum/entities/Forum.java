@@ -46,5 +46,7 @@ public class Forum implements Serializable {
   public Forum (BaseForumDto forumDto) {
     this.name = forumDto.getName();
     this.description = forumDto.getDescription();
+    this.threads = List.of();
+    this.moderators = Set.of();
   }
 }
