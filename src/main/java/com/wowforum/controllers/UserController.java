@@ -1,6 +1,5 @@
 package com.wowforum.controllers;
 
-import com.wowforum.dtos.ForumReadDto;
 import com.wowforum.dtos.UserCreateDto;
 import com.wowforum.dtos.UserReadDto;
 import com.wowforum.services.UserService;
@@ -33,8 +32,8 @@ public class UserController {
 
   @GetMapping
   @Secured("ROLE_ADMIN")
-  public ResponseEntity<List<UserReadDto>> getAll() {
-    var users = userService.getAll();
+  public ResponseEntity<List<UserReadDto>> getUsers(@RequestParam(required = false) String username) {
+    var users = userService.getUsers(username);
     var dtos = users.stream()
       .map(user -> new UserReadDto(user))
       .collect(Collectors.toList());
