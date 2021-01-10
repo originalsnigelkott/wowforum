@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -27,6 +28,19 @@ public class MyUserDetailsService implements UserDetailsService {
 
   @Autowired
   private UserService userService;
+
+  @PostConstruct
+  private void createDefaultUser() {
+    if(!userRepository.existsUserByUsernameIgnoreCase("admin")) {
+      var user = new User();
+      user.setUsername("admin");
+      user.setFirstName("Admin");
+      user.setLastName("McAdminFace");
+      user.setPassword(passwordEncoder.encode("password"));
+      user.setRoles("USER,ADMIN");
+      userRepository.save(user);
+    }
+  }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
