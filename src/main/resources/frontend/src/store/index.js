@@ -26,13 +26,19 @@ export default new Vuex.Store({
           (thread) => thread.id != data.threadId
         );
       }
+      const forum = state.forums.find((forum) => forum.id === data.forumId);
+      if (forum) {
+        forum.threads = forum.threads.filter(
+          (thread) => thread.id != data.threadId
+        );
+      }
     },
     setUserResults(state, data) {
       state.userResults = data;
     },
     setForums(state, data) {
       state.forums = data;
-    }
+    },
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -67,12 +73,14 @@ export default new Vuex.Store({
           method: "DELETE",
         }
       );
-      if(data.status === 204) {
+      if (data.status === 204) {
         commit("removeThread", ids);
       }
     },
     async fetchUsers({ commit }, searchPhrase) {
-      const data = await fetchWithCredentials(`${BASE_VERSION_URL}/users?username=${searchPhrase}`);
+      const data = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/users?username=${searchPhrase}`
+      );
       try {
         const users = await data.json();
         commit("setUserResults", users);
@@ -88,7 +96,7 @@ export default new Vuex.Store({
       } catch {
         console.error("An error occured while loading the forums");
       }
-    }
+    },
   },
   getters: {
     currentUser: (state) => state.currentUser,
