@@ -61,8 +61,9 @@ export default new Vuex.Store({
           method: "DELETE",
         }
       );
-      console.log(data);
-      commit("removeThread", ids);
+      if(data.status === 204) {
+        commit("removeThread", ids);
+      }
     },
   },
   getters: {
