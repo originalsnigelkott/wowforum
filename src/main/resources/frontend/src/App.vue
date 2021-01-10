@@ -14,6 +14,7 @@ import Header from "@/components/Header.vue";
 })
 class App extends Vue {
   async created() {
+    await this.$store.dispatch("fetchForums");
     await this.$store.dispatch("getCurrentUser");
   }
 }
