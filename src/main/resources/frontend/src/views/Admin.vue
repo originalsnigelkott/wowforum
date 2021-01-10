@@ -1,16 +1,30 @@
 <template>
   <div class="view col center-y">
-    <h3>Admin page</h3>
+    <div class="content">
+      <div class="header">
+        <h2 class="title">Admin controls</h2>
+      </div>
+      <div class="controls col">
+        <FindUsersForm />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
+import FindUsersForm from "@/components/admin/FindUsersForm";
 
-@Component()
+@Component({
+  components: { FindUsersForm },
+})
 class Admin extends Vue {
   get currentUser() {
     return this.$store.state.currentUser;
+  }
+
+  get userResults() {
+    return this.$store.state.userResults;
   }
 
   created() {
@@ -23,4 +37,19 @@ class Admin extends Vue {
 export default Admin;
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.content {
+  width: 100%;
+  border: turquoise solid 1px;
+  .header {
+    padding: 10px;
+    border-bottom: turquoise solid 1px;
+    .title {
+      font-size: 24px;
+    }
+  }
+  .controls {
+    padding: 10px;
+  }
+}
+</style>

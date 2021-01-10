@@ -27,7 +27,7 @@ export default new Vuex.Store({
       }
     },
     setUserResults(state, data) {
-      console.log(data)
+      console.log(data);
       state.userResults = data;
     }
   },
