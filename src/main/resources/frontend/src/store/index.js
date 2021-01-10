@@ -11,6 +11,7 @@ export default new Vuex.Store({
     currentUser: null,
     forum: {},
     userResults: [],
+    forums: [],
   },
   mutations: {
     setCurrentUser(state, data) {
@@ -27,8 +28,10 @@ export default new Vuex.Store({
       }
     },
     setUserResults(state, data) {
-      console.log(data);
       state.userResults = data;
+    },
+    setForums(state, data) {
+      state.forums = data;
     }
   },
   actions: {
@@ -68,14 +71,22 @@ export default new Vuex.Store({
         commit("removeThread", ids);
       }
     },
-    async fetchUsers({commit}, searchPhrase) {
-      console.log("fetching users")
+    async fetchUsers({ commit }, searchPhrase) {
       const data = await fetchWithCredentials(`${BASE_VERSION_URL}/users?username=${searchPhrase}`);
       try {
         const users = await data.json();
         commit("setUserResults", users);
       } catch {
         console.error("An error occured while loading the users");
+      }
+    },
+    async fetchForums({ commit }) {
+      const data = await fetchWithCredentials(`${BASE_VERSION_URL}/forums`);
+      try {
+        const forums = await data.json();
+        commit("setForums", forums);
+      } catch {
+        console.error("An error occured while loading the forums");
       }
     }
   },
