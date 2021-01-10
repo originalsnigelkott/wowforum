@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     currentUser: null,
     forum: {},
+    userResults: [],
   },
   mutations: {
     setCurrentUser(state, data) {
@@ -25,6 +26,10 @@ export default new Vuex.Store({
         );
       }
     },
+    setUserResults(state, data) {
+      console.log(data)
+      state.userResults = data;
+    }
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -63,6 +68,16 @@ export default new Vuex.Store({
         commit("removeThread", ids);
       }
     },
+    async fetchUsers({commit}, searchPhrase) {
+      console.log("fetching users")
+      const data = await fetchWithCredentials(`${BASE_VERSION_URL}/users?username=${searchPhrase}`);
+      try {
+        const users = await data.json();
+        commit("setUserResults", users);
+      } catch {
+        console.error("An error occured while loading the users");
+      }
+    }
   },
   getters: {
     currentUser: (state) => state.currentUser,
