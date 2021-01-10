@@ -5,8 +5,12 @@
         <h2 class="title">Admin controls</h2>
       </div>
       <div class="controls col">
-        <FindUsersForm />
-        <UserList />
+        <div class="control">
+          <FindUsersForm />
+        </div>
+        <div class="control">
+          <UserList />
+        </div>
       </div>
     </div>
   </div>
@@ -15,7 +19,7 @@
 <script>
 import { Vue, Component } from "vue-property-decorator";
 import FindUsersForm from "@/components/admin/FindUsersForm";
-import UserList from "@/components/admin/UserList"
+import UserList from "@/components/admin/UserList";
 
 @Component({
   components: { FindUsersForm, UserList },
@@ -51,7 +55,10 @@ export default Admin;
     }
   }
   .controls {
-    padding: 10px;
+    padding: 5px 10px;
+    .control {
+      margin: 5px 0;
+    }
   }
 }
 </style>
