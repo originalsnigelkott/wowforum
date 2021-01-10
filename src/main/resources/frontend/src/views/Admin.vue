@@ -6,6 +6,9 @@
       </div>
       <div class="controls col">
         <div class="control">
+          <ForumForm />
+        </div>
+        <div class="control">
           <FindUsersForm />
         </div>
         <div class="control">
@@ -18,11 +21,12 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
+import ForumForm from "@/components/admin/ForumForm";
 import FindUsersForm from "@/components/admin/FindUsersForm";
 import UserList from "@/components/admin/UserList";
 
 @Component({
-  components: { FindUsersForm, UserList },
+  components: { FindUsersForm, UserList, ForumForm },
 })
 class Admin extends Vue {
   get currentUser() {
