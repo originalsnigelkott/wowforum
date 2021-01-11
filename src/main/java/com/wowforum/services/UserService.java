@@ -48,7 +48,7 @@ public class UserService {
 
   public void updateUser(UUID id, UserUpdateDto dto) {
     var user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("user", "id"));
-    user.setRoles(dto.getRoles());
+    user.setRoles(dto.getRoles().toUpperCase());
     userRepository.save(user);
   }
 
