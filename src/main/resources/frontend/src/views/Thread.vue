@@ -20,7 +20,6 @@
     <PostForm
       v-if="currentUser && !locked"
       :canWriteWarning="userHasModerationRights"
-      @addPost="addPost($event)"
     />
   </div>
 </template>
@@ -58,10 +57,6 @@ class Thread extends Vue {
       this.currentUser?.roles.includes("ADMIN") ||
       this.currentUser?.moderates.includes(this.thread.forumId)
     );
-  }
-
-  addPost(post) {
-    this.thread.posts.push(post);
   }
 
   async created() {

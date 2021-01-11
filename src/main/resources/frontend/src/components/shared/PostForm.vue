@@ -34,8 +34,6 @@
 
 <script>
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { BASE_VERSION_URL } from "@/app-strings";
-import { fetchWithCredentials } from "@/utils";
 
 @Component()
 class PostForm extends Vue {
@@ -51,32 +49,10 @@ class PostForm extends Vue {
   async createPost() {
     this.processing = true;
     const threadId = this.$route.params.id;
-    const response = await fetchWithCredentials(
-      `${BASE_VERSION_URL}/threads/${threadId}/posts`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.post),
-      }
-    );
-    await this.handleResponse(response);
+    await this.$store.dispatch("createPost", { payload: this.post, threadId});
+    this.post.content = null;
+    this.post.isWarning = false;
     this.processing = false;
-  }
-
-  async handleResponse(response) {
-    switch (response.status) {
-      case 201: {
-        const post = await response.json();
-        this.$emit("addPost", post);
-        this.post.content = null;
-        this.post.isWarning = false;
-        break;
-      }
-      default: {
-        console.log("Something went wrong.");
-        break;
-      }
-    }
   }
 }
 

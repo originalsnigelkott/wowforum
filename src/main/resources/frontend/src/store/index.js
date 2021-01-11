@@ -48,6 +48,12 @@ export default new Vuex.Store({
     setThread(state, data) {
       state.thread = data;
     },
+    addPost(state, data) {
+      console.log(data);
+      if(state.thread.id === data.threadId) {
+        state.thread.posts.push(data);
+      }
+    }
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -115,16 +121,11 @@ export default new Vuex.Store({
           body: JSON.stringify(payload),
         }
       );
-      switch (response.status) {
-        case 201: {
-          const thread = await response.json();
-          commit("addThread", thread);
-          break;
-        }
-        default: {
-          console.error("An error occured when trying to create thread.");
-          break;
-        }
+      if (response.status === 201) {
+        const thread = await response.json();
+        commit("addThread", thread);
+      } else {
+        console.error("An error occured when trying to create thread.");
       }
     },
     async fetchThread({ commit }, threadId) {
@@ -136,6 +137,22 @@ export default new Vuex.Store({
         commit("setThread", thread);
       } else {
         console.error("An error occured when trying to fetch thread.");
+      }
+    },
+    async createPost({ commit }, { payload, threadId }) {
+      const response = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/threads/${threadId}/posts`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (response.status === 201) {
+        const post = await response.json();
+        commit("addPost", post);
+      } else {
+        console.error("An error occured when trying create post.");
       }
     },
   },
