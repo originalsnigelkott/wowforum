@@ -45,7 +45,6 @@ class ModerationControls extends Vue {
     const forum = this.$store.state.forums.find(
       (forum) => forum.id === forumId
     );
-    console.log(forum);
     return forum.name;
   }
 }

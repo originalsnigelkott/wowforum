@@ -80,12 +80,12 @@ class Login extends Vue {
       }
       case 401: {
         this.error = "Username and/or password is wrong.";
-        console.log("Authentication failed.");
+        console.error("Authentication failed.");
         break;
       }
       default: {
         this.error = "Something went wrong please try again.";
-        console.log("Something went wrong.");
+        console.error("Something went wrong.");
         break;
       }
     }

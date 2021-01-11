@@ -36,7 +36,6 @@ export default new Vuex.Store({
       }
     },
     addPost(state, data) {
-      console.log(data);
       if(state.thread.id === data.threadId) {
         state.thread.posts.push(data);
       }
