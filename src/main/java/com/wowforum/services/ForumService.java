@@ -36,6 +36,9 @@ public class ForumService {
   public void addModerator(UUID forumId, UUID userId) {
     var forum = forumRepository.findById(forumId).orElseThrow(() -> new EntityNotFoundException("forum", "id"));
     var user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("user", "id"));
+    if(forum.getModerators().contains(user)) {
+      throw new BadRequestException("User already moderates this forum.");
+    }
     if(!user.getRoles().contains("MODERATOR")) {
       user.setRoles(user.getRoles() + ",MODERATOR");
     }
