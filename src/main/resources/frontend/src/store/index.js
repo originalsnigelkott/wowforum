@@ -10,9 +10,9 @@ export default new Vuex.Store({
   state: {
     currentUser: null,
     forum: {},
-    userResults: [],
     forums: [],
     thread: {},
+    userResults: [],
   },
   mutations: {
     setCurrentUser(state, data) {
@@ -20,6 +20,26 @@ export default new Vuex.Store({
     },
     setForum(state, data) {
       state.forum = data;
+    },
+    setForums(state, data) {
+      state.forums = data;
+    },
+    setThread(state, data) {
+      state.thread = data;
+    },
+    setUserResults(state, data) {
+      state.userResults = data;
+    },
+    addThread(state, data) {
+      if (state.forum.id === data.forumId) {
+        state.forum.threads.push(data);
+      }
+    },
+    addPost(state, data) {
+      console.log(data);
+      if(state.thread.id === data.threadId) {
+        state.thread.posts.push(data);
+      }
     },
     removeThread(state, data) {
       if (Object.keys(state.forum).length) {
@@ -34,26 +54,6 @@ export default new Vuex.Store({
         );
       }
     },
-    setUserResults(state, data) {
-      state.userResults = data;
-    },
-    setForums(state, data) {
-      state.forums = data;
-    },
-    addThread(state, data) {
-      if (state.forum.id === data.forumId) {
-        state.forum.threads.push(data);
-      }
-    },
-    setThread(state, data) {
-      state.thread = data;
-    },
-    addPost(state, data) {
-      console.log(data);
-      if(state.thread.id === data.threadId) {
-        state.thread.posts.push(data);
-      }
-    }
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -81,15 +81,24 @@ export default new Vuex.Store({
         console.error("An error occured while loading the threads.");
       }
     },
-    async deleteThread({ commit }, ids) {
+    async fetchForums({ commit }) {
+      const response = await fetchWithCredentials(`${BASE_VERSION_URL}/forums`);
+      try {
+        const forums = await response.json();
+        commit("setForums", forums);
+      } catch {
+        console.error("An error occured while loading the forums");
+      }
+    },
+    async fetchThread({ commit }, threadId) {
       const response = await fetchWithCredentials(
-        `${BASE_VERSION_URL}/threads/${ids.threadId}`,
-        {
-          method: "DELETE",
-        }
+        `${BASE_VERSION_URL}/threads/${threadId}`
       );
-      if (response.status === 204) {
-        commit("removeThread", ids);
+      if (response.status === 200) {
+        const thread = await response.json();
+        commit("setThread", thread);
+      } else {
+        console.error("An error occured when trying to fetch thread.");
       }
     },
     async fetchUsers({ commit }, searchPhrase) {
@@ -101,15 +110,6 @@ export default new Vuex.Store({
         commit("setUserResults", users);
       } catch {
         console.error("An error occured while loading the users");
-      }
-    },
-    async fetchForums({ commit }) {
-      const response = await fetchWithCredentials(`${BASE_VERSION_URL}/forums`);
-      try {
-        const forums = await response.json();
-        commit("setForums", forums);
-      } catch {
-        console.error("An error occured while loading the forums");
       }
     },
     async createThread({ commit }, { payload, forumId }) {
@@ -128,17 +128,6 @@ export default new Vuex.Store({
         console.error("An error occured when trying to create thread.");
       }
     },
-    async fetchThread({ commit }, threadId) {
-      const response = await fetchWithCredentials(
-        `${BASE_VERSION_URL}/threads/${threadId}`
-      );
-      if (response.status === 200) {
-        const thread = await response.json();
-        commit("setThread", thread);
-      } else {
-        console.error("An error occured when trying to fetch thread.");
-      }
-    },
     async createPost({ commit }, { payload, threadId }) {
       const response = await fetchWithCredentials(
         `${BASE_VERSION_URL}/threads/${threadId}/posts`,
@@ -153,6 +142,17 @@ export default new Vuex.Store({
         commit("addPost", post);
       } else {
         console.error("An error occured when trying create post.");
+      }
+    },
+    async deleteThread({ commit }, ids) {
+      const response = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/threads/${ids.threadId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.status === 204) {
+        commit("removeThread", ids);
       }
     },
   },
