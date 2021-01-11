@@ -13,9 +13,7 @@
         </span>
       </div>
     </div>
-    <div class="user-controls">
-      <UserControls :user="user" />
-    </div>
+    <UserControls :user="user" />
   </div>
 </template>
 
@@ -24,7 +22,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import UserControls from "./UserControls";
 
 @Component({
-  components: { UserControls }
+  components: { UserControls },
 })
 class UserItem extends Vue {
   @Prop({ required: true })
@@ -46,13 +44,11 @@ export default UserItem;
       margin-right: 10px;
     }
     .names {
-      .firstname, .lastname {
+      .firstname,
+      .lastname {
         font-size: 14px;
       }
     }
-  }
-  .user-controls {
-    padding: 5px;
   }
 }
 </style>
