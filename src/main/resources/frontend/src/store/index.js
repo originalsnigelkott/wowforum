@@ -12,6 +12,7 @@ export default new Vuex.Store({
     forum: {},
     userResults: [],
     forums: [],
+    thread: {},
   },
   mutations: {
     setCurrentUser(state, data) {
@@ -40,10 +41,13 @@ export default new Vuex.Store({
       state.forums = data;
     },
     addThread(state, data) {
-      if(state.forum.id === data.forumId) {
+      if (state.forum.id === data.forumId) {
         state.forum.threads.push(data);
       }
-    }
+    },
+    setThread(state, data) {
+      state.thread = data;
+    },
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -111,7 +115,7 @@ export default new Vuex.Store({
           body: JSON.stringify(payload),
         }
       );
-      switch(response.status) {
+      switch (response.status) {
         case 201: {
           const thread = await response.json();
           commit("addThread", thread);
@@ -121,6 +125,17 @@ export default new Vuex.Store({
           console.error("An error occured when trying to create thread.");
           break;
         }
+      }
+    },
+    async fetchThread({ commit }, threadId) {
+      const response = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/threads/${threadId}`
+      );
+      if (response.status === 200) {
+        const thread = await response.json();
+        commit("setThread", thread);
+      } else {
+        console.error("An error occured when trying to fetch thread.");
       }
     },
   },

@@ -27,15 +27,15 @@
 
 <script>
 import { Vue, Component } from "vue-property-decorator";
-import { BASE_VERSION_URL } from "@/app-strings";
-import { fetchWithCredentials } from "@/utils";
 import PostList from "@/components/thread/PostList";
 import PostForm from "@/components/shared/PostForm";
 import LockedThreadMessage from "@/components/shared/LockedThreadMessage";
 
 @Component({ components: { PostList, PostForm, LockedThreadMessage } })
 class Thread extends Vue {
-  thread = {};
+  get thread() {
+    return this.$store.state.thread;
+  }
 
   get currentUser() {
     return this.$store.state.currentUser;
@@ -66,15 +66,7 @@ class Thread extends Vue {
 
   async created() {
     const threadId = this.$route.params.id;
-    const data = await fetchWithCredentials(
-      `${BASE_VERSION_URL}/threads/${threadId}`
-    );
-    try {
-      const thread = await data.json();
-      this.thread = thread;
-    } catch {
-      console.error("An error occured while loading the thread.");
-    }
+    await this.$store.dispatch("fetchThread", threadId);
   }
 }
 
