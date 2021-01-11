@@ -43,7 +43,11 @@ class RemoveModeratorForm extends Vue {
 
   async removeUserAsModerator() {
     this.processingDemotion = true;
-    console.log(this.demoteForumId);
+    await this.$store.dispatch("deleteModerator", {
+      userId: this.user.id,
+      forumId: this.demoteForumId,
+    });
+    this.demoteForumId = null;
     this.processingDemotion = false;
   }
 }

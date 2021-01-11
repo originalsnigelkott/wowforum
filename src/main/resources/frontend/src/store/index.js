@@ -60,6 +60,12 @@ export default new Vuex.Store({
         user.moderates.push(data.forumId);
       }
     },
+    deleteModerator(state, data) {
+      const user = state.userResults.find((user) => (user.id = data.userId));
+      if (user) {
+        user.moderates = user.moderates.filter(id => id != data.forumId);
+      }
+    }
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -172,6 +178,19 @@ export default new Vuex.Store({
         commit("addModerator", { userId, forumId })
       } else {
         console.error("An error occured when trying to add moderator.");
+      }
+    },
+    async deleteModerator({ commit }, {userId, forumId }) {
+      const response = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/forums/${forumId}/moderators/${userId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.status === 204) {
+        commit("deleteModerator", { userId, forumId });
+      } else {
+        console.error("An error occured when trying to delete moderator.");
       }
     },
   },
