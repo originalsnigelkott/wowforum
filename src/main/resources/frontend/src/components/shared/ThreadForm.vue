@@ -44,8 +44,6 @@
 
 <script>
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { BASE_VERSION_URL } from "@/app-strings";
-import { fetchWithCredentials } from "@/utils";
 
 @Component()
 class ThreadForm extends Vue {
@@ -64,32 +62,13 @@ class ThreadForm extends Vue {
   async createThread() {
     this.processing = true;
     const forumId = this.$route.params.id;
-    const response = await fetchWithCredentials(
-      `${BASE_VERSION_URL}/forums/${forumId}/threads`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.thread),
-      }
-    );
-    await this.handleResponse(response);
+    await this.$store.dispatch("createThread", {
+      payload: this.thread,
+      forumId,
+    });
+    this.thread.initialPost.content = null;
+    this.thread.topic = null;
     this.processing = false;
-  }
-
-  async handleResponse(response) {
-    switch (response.status) {
-      case 201: {
-        const thread = await response.json();
-        this.$emit("addThread", thread);
-        this.thread.initialPost.content = null;
-        this.thread.topic = null;
-        break;
-      }
-      default: {
-        console.log("Something went wrong.");
-        break;
-      }
-    }
   }
 }
 

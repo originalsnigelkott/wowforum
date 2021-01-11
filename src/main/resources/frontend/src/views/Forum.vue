@@ -6,7 +6,6 @@
     <ThreadForm
       v-if="currentUser"
       :canWriteWarning="isModerator"
-      @addThread="addThread($event)"
     />
   </div>
 </template>
@@ -35,10 +34,6 @@ class Forum extends Vue {
 
   get isModerator() {
     return hasModerationRights(this.forum.id);
-  }
-
-  addThread(thread) {
-    this.forum.threads.push(thread);
   }
 
   created() {
