@@ -2,6 +2,7 @@ package com.wowforum.controllers;
 
 import com.wowforum.dtos.UserCreateDto;
 import com.wowforum.dtos.UserReadDto;
+import com.wowforum.dtos.UserUpdateDto;
 import com.wowforum.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -38,5 +40,12 @@ public class UserController {
       .map(user -> new UserReadDto(user))
       .collect(Collectors.toList());
     return ResponseEntity.ok(dtos);
+  }
+
+  @PutMapping("{id}")
+  @Secured("ROLE_ADMIN")
+  public  ResponseEntity updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateDto dto) {
+    userService.updateUser(id, dto);
+    return ResponseEntity.noContent().build();
   }
 }

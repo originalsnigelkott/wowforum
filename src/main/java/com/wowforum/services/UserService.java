@@ -2,14 +2,17 @@ package com.wowforum.services;
 
 import com.wowforum.configs.MyUserDetailsService;
 import com.wowforum.dtos.UserCreateDto;
+import com.wowforum.dtos.UserUpdateDto;
 import com.wowforum.entities.User;
 import com.wowforum.exceptions.BadRequestException;
+import com.wowforum.exceptions.EntityNotFoundException;
 import com.wowforum.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -43,8 +46,15 @@ public class UserService {
     return userRepository.findByUsernameContainingIgnoreCase(username);
   }
 
+  public void updateUser(UUID id, UserUpdateDto dto) {
+    var user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("user", "id"));
+    user.setRoles(dto.getRoles());
+    userRepository.save(user);
+  }
+
   private boolean currentUserIsAdmin() {
     var user = userDetailsService.getCurrentUser();
     return user != null && user.getRoles().contains("ADMIN");
   }
+
 }
