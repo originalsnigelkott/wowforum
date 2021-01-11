@@ -70,7 +70,12 @@ main {
 
 .pointer {
   cursor: pointer;
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     &:hover {
       text-shadow: white 0 0 2px;
     }
@@ -80,7 +85,8 @@ main {
   }
 }
 
-input, textarea {
+input,
+textarea {
   border-radius: 5px;
   border: none;
   padding: 5px;
@@ -95,12 +101,12 @@ input, textarea {
 
 button {
   background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
 .btn {
@@ -110,7 +116,7 @@ button {
   border-radius: 5px;
   background-color: turquoise;
   &:hover {
-    background-color:rgba(64, 224, 208, 0.938);
+    background-color: rgba(64, 224, 208, 0.938);
     text-shadow: white 0 0 2px;
     box-shadow: white 0 0 2px;
   }
@@ -124,7 +130,24 @@ button {
 
 @media screen and (max-width: 650px) {
   .view {
-  padding: 5px 5px !important;
+    padding: 5px 5px !important;
+  }
 }
+
+@media screen and (min-width: 1200px) {
+  .view {
+    padding: 10px 100px !important;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .view {
+    padding: 10px 200px !important;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .view {
+    padding: 10px 300px !important;
+  }
 }
 </style>
