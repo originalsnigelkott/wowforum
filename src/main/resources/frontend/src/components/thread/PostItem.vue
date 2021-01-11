@@ -9,7 +9,7 @@
       </span>
     </div>
     <div class="content">
-      <p :class="{ warning: post.warning }">{{ content }}</p>
+      <p class="message" :class="{ warning: post.warning }">{{ post.content }}</p>
     </div>
   </div>
 </template>
@@ -21,10 +21,6 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 class PostItem extends Vue {
   @Prop({ required: true })
   post;
-
-  get content() {
-    return this.post.content.replace(/\\n/g, "\n");
-  }
 
   get creationDate() {
     return new Date(this.post.created).toLocaleString();
@@ -50,7 +46,7 @@ export default PostItem;
   }
   .content {
     padding: 5px 10px;
-    p {
+    .message {
       white-space: pre-wrap;
     }
     .warning {

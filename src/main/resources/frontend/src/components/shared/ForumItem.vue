@@ -57,6 +57,9 @@ export default ForumItem;
     .description {
       padding: 5px 0;
     }
+    .description {
+      white-space: pre-wrap;
+    }
   }
   .threads {
     padding: 5px 10px;
