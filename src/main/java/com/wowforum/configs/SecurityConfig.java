@@ -42,12 +42,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
       .csrf().disable()
       .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/api/v1/forums", "/api/v1/forums/**").permitAll()
-          .antMatchers(HttpMethod.GET, "/api/v1/threads/**").permitAll()
-          .antMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
-          .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-          .anyRequest().authenticated()
-          .and()
+        .antMatchers(
+          HttpMethod.GET,
+          "/api/v1/forums",
+          "/api/v1/forums/**",
+          "/api/v1/threads/**",
+          "/api/v1/posts/**"
+        ).permitAll()
+        .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+        .anyRequest().authenticated()
+        .and()
       .formLogin()
           .loginPage("/login")
           .loginProcessingUrl("/api/auth/login").permitAll()
