@@ -54,6 +54,12 @@ export default new Vuex.Store({
         );
       }
     },
+    addModerator(state, data) {
+      const user = state.userResults.find(user => user.id = data.userId);
+      if (user) {
+        user.moderates.push(data.forumId);
+      }
+    },
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -153,6 +159,19 @@ export default new Vuex.Store({
       );
       if (response.status === 204) {
         commit("removeThread", ids);
+      }
+    },
+    async addModerator({ commit }, { userId, forumId }) {
+      const response = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/forums/${forumId}/moderators/${userId}`,
+        {
+          method: "POST",
+        }
+      );
+      if (response.status === 204) {
+        commit("addModerator", { userId, forumId })
+      } else {
+        console.error("An error occured when trying to add moderator.");
       }
     },
   },

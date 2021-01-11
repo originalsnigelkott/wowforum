@@ -1,28 +1,27 @@
 <template>
-<div class="col">
+  <div class="col">
     <h5 class="subtitle">Promote user to moderator</h5>
-  <form @submit.prevent="addUserAsModerator()" class="row">
-    <select
-      name="forum"
-      class="forum-dropdown"
-      v-model="promoteForumId"
-      required
-    >
-      <option :value="null"></option>
-      <option
-        v-for="forum in unModeratedForums"
-        :key="forum.id"
-        :value="forum.id"
+    <form @submit.prevent="addUserAsModerator()" class="row">
+      <select
+        name="forum"
+        class="forum-dropdown"
+        v-model="promoteForumId"
+        required
       >
-        {{ forum.name }}
-      </option>
-    </select>
-    <button type="submit" class="btn" :disabled="processingPromotion">
-      Promote
-    </button>
-  </form>
-
-</div>
+        <option :value="null"></option>
+        <option
+          v-for="forum in unModeratedForums"
+          :key="forum.id"
+          :value="forum.id"
+        >
+          {{ forum.name }}
+        </option>
+      </select>
+      <button type="submit" class="btn" :disabled="processingPromotion">
+        Promote
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -44,7 +43,11 @@ class AddModeratorForm extends Vue {
 
   async addUserAsModerator() {
     this.processingPromotion = true;
-    console.log(this.promoteForumId);
+    await this.$store.dispatch("addModerator", {
+      userId: this.user.id,
+      forumId: this.promoteForumId,
+    });
+    this.promoteForumId = null;
     this.processingPromotion = false;
   }
 }
