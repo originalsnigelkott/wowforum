@@ -4,9 +4,11 @@
     :class="{ pointer: canNavigate }"
     @click="canNavigate && navigate()"
   >
-    <div class="header col">
-      <div class="row spread">
+    <div class="header row spread center-y">
+      <div class="col">
         <h3 class="title" :style="styleObject">{{ forum.name }}</h3>
+        <p class="description">{{ forum.description }}</p>
+      </div>
         <div
           v-if="isAdmin && showDelete"
           @click.stop="deleteForum()"
@@ -14,8 +16,6 @@
         >
           <DeleteIcon title="Delete forum" fillColor="#FF0000"></DeleteIcon>
         </div>
-      </div>
-      <p class="description">{{ forum.description }}</p>
     </div>
     <div class="threads">
       <ThreadList :threads="threads" />
