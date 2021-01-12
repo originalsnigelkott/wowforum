@@ -92,7 +92,7 @@ class SignUp extends Vue {
         break;
       }
       default: {
-        console.log("Something went wrong.");
+        console.error("Something went wrong.");
         break;
       }
     }
