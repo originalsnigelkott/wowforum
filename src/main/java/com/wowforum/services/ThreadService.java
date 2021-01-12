@@ -1,5 +1,6 @@
 package com.wowforum.services;
 
+import com.sun.xml.bind.v2.TODO;
 import com.wowforum.configs.MyUserDetailsService;
 import com.wowforum.dtos.ThreadCreateDto;
 import com.wowforum.dtos.ThreadUpdateDto;
@@ -7,6 +8,7 @@ import com.wowforum.entities.Thread;
 import com.wowforum.entities.User;
 import com.wowforum.exceptions.EntityNotFoundException;
 import com.wowforum.exceptions.ForbiddenException;
+import com.wowforum.repositories.ForumRepository;
 import com.wowforum.repositories.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class ThreadService {
   private ThreadRepository threadRepository;
 
   @Autowired
+  private ForumRepository forumRepository;
+
+  @Autowired
   private MyUserDetailsService userDetailsService;
 
   public List<Thread> getThreadsByForumId(UUID forumId) {
@@ -32,26 +37,28 @@ public class ThreadService {
     return threadRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
   }
 
+//  TODO: test! works
   public Thread createThread(UUID forumId, ThreadCreateDto threadDto) {
     var creator = userDetailsService.getCurrentUser();
     if (creator == null) {
       throw new ForbiddenException("Need to be logged in to complete this request.");
     }
-
-    var thread = new Thread(threadDto, forumId, creator);
+    var forum = forumRepository.findById(forumId).orElseThrow(() -> new EntityNotFoundException("forum", "id"));
+    var thread = new Thread(threadDto, forum, creator);
 
     return threadRepository.save(thread);
   }
-
+//  TODO: test! works
   public void deleteThread(UUID id) {
     var thread = getThreadById(id);
-    checkPermissions(thread.getForumId());
+    checkPermissions(thread.getForum().getId());
     threadRepository.delete(thread);
   }
 
+  //  TODO: test! works
   public void updateThread(UUID id, ThreadUpdateDto updateDto) {
     var thread = getThreadById(id);
-    checkPermissions(thread.getForumId());
+    checkPermissions(thread.getForum().getId());
     thread.setTopic(updateDto.getTopic());
     thread.setLocked(updateDto.isLocked());
     threadRepository.save(thread);

@@ -32,8 +32,7 @@ public class Forum implements Serializable {
   @Column(name = "description", nullable = false)
   private String description;
 
-  @OneToMany
-  @JoinColumn(name = "forum_id")
+  @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Thread> threads;
 
   @ManyToMany

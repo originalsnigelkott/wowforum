@@ -24,9 +24,9 @@ public class Thread implements Serializable {
   @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
-
-  @Column(name = "forum_id", nullable = false)
-  private UUID forumId;
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Forum forum;
 
   @Column(name = "topic", nullable = false)
   private String topic;
@@ -40,9 +40,9 @@ public class Thread implements Serializable {
   @Column(name = "is_locked", columnDefinition = "int default 0")
   private boolean isLocked;
 
-  public Thread(ThreadCreateDto threadCreateDto, UUID forumId, User creator) {
+  public Thread(ThreadCreateDto threadCreateDto, Forum forum, User creator) {
     this.id = UUID.randomUUID();
-    this.forumId = forumId;
+    this.forum = forum;
     this.topic = threadCreateDto.getTopic();
     this.initialPost = new Post(threadCreateDto.getInitialPost());
     this.initialPost.setThread(this);

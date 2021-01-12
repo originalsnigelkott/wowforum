@@ -47,7 +47,7 @@ public class PostService {
     if (creator == null) {
       throw new ForbiddenException("Need to be logged in to complete this request.");
     }
-    if (!threadService.hasPermissionToForum(creator, thread.getForumId())) {
+    if (!threadService.hasPermissionToForum(creator, thread.getForum().getId())) {
       postDto.setWarning(false);
     }
     var post = new Post(postDto);
