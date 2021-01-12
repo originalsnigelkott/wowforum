@@ -60,23 +60,26 @@ export default new Vuex.Store({
       }
     },
     addModerator(state, data) {
-      const user = state.userResults.find((user) => (user.id === data.userId));
+      const user = state.userResults.find((user) => user.id === data.userId);
       if (user) {
         user.moderates.push(data.forumId);
       }
     },
     deleteModerator(state, data) {
-      const user = state.userResults.find((user) => (user.id === data.userId));
+      const user = state.userResults.find((user) => user.id === data.userId);
       if (user) {
         user.moderates = user.moderates.filter((id) => id !== data.forumId);
       }
     },
     setUserRoles(state, data) {
-      const user = state.userResults.find((user) => user.id === data.userId)
+      const user = state.userResults.find((user) => user.id === data.userId);
       if (user) {
         user.roles = data.roles;
       }
-    }
+    },
+    deleteUser(state, data) {
+      state.userResults = state.userResults.filter((user) => user.id !== data);
+    },
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -230,6 +233,19 @@ export default new Vuex.Store({
         commit("setUserRoles", { userId, roles: payload.roles });
       } else {
         console.error("An error occured when trying to update user.");
+      }
+    },
+    async deleteUser({ commit }, userId) {
+      const response = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/users/${userId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (response.status === 204) {
+        commit("deleteUser", userId);
+      } else {
+        console.error("An error occured when trying to delete user.");
       }
     },
   },

@@ -1,16 +1,25 @@
 <template>
   <div class="user col">
-    <div class="user-info row center-y">
-      <h3 class="username">
-        {{ user.username }}
-      </h3>
-      <div class="names col">
-        <span class="firstname">
-          {{ user.firstName }}
-        </span>
-        <span class="lastname">
-          {{ user.lastName }}
-        </span>
+    <div class="user-info row center-y spread">
+      <div class="row center-y">
+        <h3 class="username">
+          {{ user.username }}
+        </h3>
+        <div class="names col">
+          <span class="firstname">
+            {{ user.firstName }}
+          </span>
+          <span class="lastname">
+            {{ user.lastName }}
+          </span>
+        </div>
+      </div>
+      <div 
+        v-if="!isCurrentUser"
+        @click="deleteUser()"
+        class="action-btn row center-xy pointer"
+      >
+        <LockIcon title="Delete user" fillColor="#FF0000"></LockIcon>
       </div>
     </div>
     <UserControls :user="user" />
@@ -27,6 +36,14 @@ import UserControls from "./UserControls";
 class UserItem extends Vue {
   @Prop({ required: true })
   user;
+
+  get isCurrentUser() {
+    return this.$store.state.currentUser?.id === this.user.id;
+  }
+
+  deleteUser() {
+    this.$store.dispatch("deleteUser", this.user.id);
+  }
 }
 
 export default UserItem;
