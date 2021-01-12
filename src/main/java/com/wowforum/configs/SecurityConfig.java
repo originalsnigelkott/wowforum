@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .deleteCookies("JSESSIONID")
           .and()
       .exceptionHandling()
-        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+        .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
   }
 
   @Bean
