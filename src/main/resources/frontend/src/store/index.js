@@ -40,6 +40,12 @@ export default new Vuex.Store({
         state.thread.posts.push(data);
       }
     },
+    deleteForum(state, data) {
+      state.forums = state.forums.filter(forum => forum.id != data);
+      if(state.forum.id === data) {
+        state.forum = {};
+      }
+    },
     removeThread(state, data) {
       if (Object.keys(state.forum).length) {
         state.forum.threads = state.forum.threads.filter(
@@ -153,6 +159,20 @@ export default new Vuex.Store({
         commit("addPost", post);
       } else {
         console.error("An error occured when trying create post.");
+      }
+    },
+    async deleteForum({ commit }, forumId) {
+      const response = await fetchWithCredentials(
+        `${BASE_VERSION_URL}/forums/${forumId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      console.log(response);
+      if (response.status === 204) {
+        commit("deleteForum", forumId);
+      } else {
+        console.error("An error occuren when trying to delete forum.");
       }
     },
     async deleteThread({ commit }, ids) {

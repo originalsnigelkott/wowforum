@@ -4,8 +4,17 @@
     :class="{ pointer: canNavigate }"
     @click="canNavigate && navigate()"
   >
-    <div class="header">
-      <h3 class="title" :style="styleObject">{{ forum.name }}</h3>
+    <div class="header col">
+      <div class="row spread">
+        <h3 class="title" :style="styleObject">{{ forum.name }}</h3>
+        <div
+          v-if="isAdmin && showDelete"
+          @click.stop="deleteForum()"
+          class="action-btn row center-xy pointer"
+        >
+          <DeleteIcon title="Delete forum" fillColor="#FF0000"></DeleteIcon>
+        </div>
+      </div>
       <p class="description">{{ forum.description }}</p>
     </div>
     <div class="threads">
@@ -28,6 +37,8 @@ class ForumItem extends Vue {
   canNavigate;
   @Prop({ required: true })
   forum;
+  @Prop({ default: false })
+  showDelete;
 
   get styleObject() {
     return { fontSize: this.fontSize + "px" };
@@ -37,8 +48,16 @@ class ForumItem extends Vue {
     return this.forum?.threads?.length ? this.forum.threads : [];
   }
 
+  get isAdmin() {
+    return this.$store.state.currentUser?.roles.includes("ADMIN");
+  }
+
   navigate() {
     this.$router.push({ name: "Forum", params: { id: this.forum.id } });
+  }
+
+  deleteForum() {
+    this.$store.dispatch("deleteForum", this.forum.id);
   }
 }
 

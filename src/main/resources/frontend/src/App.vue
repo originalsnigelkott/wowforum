@@ -123,8 +123,8 @@ button {
 }
 
 .action-btn {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .material-design-icon {

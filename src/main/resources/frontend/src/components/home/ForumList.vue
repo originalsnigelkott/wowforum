@@ -1,7 +1,7 @@
 <template>
   <div class="forum-list">
     <div class="forums col">
-      <ForumItem v-for="forum of forums" :key="forum.id" :forum="forum" :fontSize="18" />
+      <ForumItem v-for="forum of forums" :key="forum.id" :forum="forum" :fontSize="18" :showDelete="true" />
     </div>
   </div>
 </template>
