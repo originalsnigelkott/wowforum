@@ -122,6 +122,11 @@ button {
   }
 }
 
+.action-btn {
+    width: 30px;
+    height: 30px;
+}
+
 .material-design-icon {
   display: flex;
   justify-content: center;
