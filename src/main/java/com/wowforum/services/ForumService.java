@@ -58,4 +58,11 @@ public class ForumService {
     }
     userRepository.save(user);
   }
+
+  public void deleteForum(UUID id) {
+    if(!forumRepository.existsById(id)) {
+      throw new EntityNotFoundException("forum", "id");
+    }
+    forumRepository.deleteById(id);
+  }
 }

@@ -48,6 +48,13 @@ public class ForumController {
     return ResponseEntity.created(uri).body(dto);
   }
 
+  @DeleteMapping("{id}")
+  @Secured("ROLE_ADMIN")
+  public ResponseEntity deleteForum(@PathVariable UUID id) {
+    forumService.deleteForum(id);
+    return ResponseEntity.noContent().build();
+  }
+
   @PostMapping("{forumId}/moderators/{userId}")
   @Secured("ROLE_ADMIN")
   public ResponseEntity addModerator(@PathVariable UUID forumId, @PathVariable UUID userId ) {
