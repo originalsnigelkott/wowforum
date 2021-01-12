@@ -57,4 +57,10 @@ public class UserService {
     return user != null && user.getRoles().contains("ADMIN");
   }
 
+  public void deleteUser(UUID id) {
+    if(!userRepository.existsById(id)) {
+      throw new EntityNotFoundException("user", "id");
+    }
+    userRepository.deleteById(id);
+  }
 }

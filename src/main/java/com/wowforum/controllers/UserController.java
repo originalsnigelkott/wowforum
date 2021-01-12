@@ -44,8 +44,15 @@ public class UserController {
 
   @PutMapping("{id}")
   @Secured("ROLE_ADMIN")
-  public  ResponseEntity updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateDto dto) {
+  public ResponseEntity updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateDto dto) {
     userService.updateUser(id, dto);
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("{id}")
+  @Secured("ROLE_ADMIN")
+  public ResponseEntity deleteUser(@PathVariable UUID id) {
+    userService.deleteUser(id);
     return ResponseEntity.noContent().build();
   }
 }
