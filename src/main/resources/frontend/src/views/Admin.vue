@@ -42,6 +42,10 @@ class Admin extends Vue {
     //   this.$router.push({ name: "Home" });
     // }
   }
+
+  destroyed() {
+    this.$store.commit("setUserResults", []);
+  }
 }
 
 export default Admin;
