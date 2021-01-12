@@ -24,7 +24,7 @@ public class Thread implements Serializable {
   @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
-  
+
   @ManyToOne(fetch = FetchType.LAZY)
   private Forum forum;
 

@@ -30,7 +30,7 @@ public class Post implements Serializable {
   @JoinColumn(name = "user_id", nullable = false)
   private User creator;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JsonBackReference
   private Thread thread;
 
