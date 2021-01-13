@@ -1,0 +1,17 @@
+ul {
+  list-style-type: none;
+  li {
+    font-size: 14px;
+    .list-marker {
+      width: 4px;
+      height: 4px;
+      margin-right: 5px;
+      background-color: turquoise;
+      border-radius: 50%;
+    }
+  }
+}
+.forum-dropdown {
+  width: 200px;
+  margin-right: 10px;
+}
