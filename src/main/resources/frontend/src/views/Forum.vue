@@ -1,12 +1,9 @@
 <template>
-  <div class="view col center-y">
+  <div v-if="hasLoaded" class="view col center-y">
     <div class="content">
       <ForumItem :forum="forum" :canNavigate="false" />
     </div>
-    <ThreadForm
-      v-if="currentUser"
-      :canWriteWarning="isModerator"
-    />
+    <ThreadForm v-if="currentUser" :canWriteWarning="isModerator" />
   </div>
 </template>
 
@@ -17,11 +14,15 @@ import ForumItem from "@/components/shared/ForumItem";
 import ThreadForm from "@/components/shared/ThreadForm";
 
 @Component({
-  components: { ForumItem, ThreadForm },
+  components: { ForumItem, ThreadForm }
 })
 class Forum extends Vue {
   get forum() {
     return this.$store.state.forum;
+  }
+
+  get hasLoaded() {
+    return Object.keys(this.forum).length;
   }
 
   get currentUser() {
@@ -39,6 +40,10 @@ class Forum extends Vue {
   created() {
     const forumId = this.$route.params.id;
     this.$store.dispatch("fetchForum", forumId);
+  }
+
+  destroyed() {
+    this.$store.commit("setForum", {});
   }
 }
 
