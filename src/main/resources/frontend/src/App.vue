@@ -10,7 +10,7 @@ import { Vue, Component } from "vue-property-decorator";
 import Header from "@/components/Header.vue";
 
 @Component({
-  components: { Header },
+  components: { Header }
 })
 class App extends Vue {
   async created() {
@@ -30,10 +30,15 @@ export default App;
   color: hotpink;
 }
 
+body {
+  background-color: black;
+  width: 100%;
+  height: 100%;
+}
+
 main {
   padding-top: 75px;
   width: 100%;
-  background-color: black;
 }
 
 .row {
