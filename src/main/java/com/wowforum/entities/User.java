@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wowforum.dtos.UserCreateDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -45,6 +48,9 @@ public class User implements Serializable {
   @ManyToMany(mappedBy = "moderators", fetch = FetchType.LAZY)
   private Set<Forum> moderatedForums;
 
+  @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  private Set<Post> posts;
+
   @JsonIgnore
   public String getPassword() {
     return password;
@@ -65,5 +71,10 @@ public class User implements Serializable {
   public void removeForum(Forum forum) {
     this.moderatedForums.remove(forum);
     forum.getModerators().remove(this);
+  }
+
+  @PreRemove
+  private void preRemove() {
+    this.posts.forEach(post -> post.setCreator(null));
   }
 }

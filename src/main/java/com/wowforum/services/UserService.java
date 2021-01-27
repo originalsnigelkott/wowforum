@@ -58,9 +58,7 @@ public class UserService {
   }
 
   public void deleteUser(UUID id) {
-    if(!userRepository.existsById(id)) {
-      throw new EntityNotFoundException("user", "id");
-    }
-    userRepository.deleteById(id);
+    var user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("user", "id"));
+    userRepository.delete(user);
   }
 }

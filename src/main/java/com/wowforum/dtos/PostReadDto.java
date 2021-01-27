@@ -18,7 +18,9 @@ public class PostReadDto extends BasePostDto {
     super(post.getContent(), post.isWarning());
     this.id = post.getId();
     this.created = post.getCreated();
-    this.creator = new UserReadDto(post.getCreator());
+    if (post.getCreator() != null) {
+      this.creator = new UserReadDto(post.getCreator());
+    }
     this.threadId = post.getThread().getId();
   }
 }

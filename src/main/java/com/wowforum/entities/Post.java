@@ -27,7 +27,7 @@ public class Post implements Serializable {
   private UUID id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
+  @JoinColumn(name = "user_id")
   private User creator;
 
   @ManyToOne(fetch = FetchType.LAZY)
