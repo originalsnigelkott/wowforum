@@ -45,7 +45,7 @@ class Thread extends Vue {
   }
 
   get author() {
-    return this.thread?.initialPost?.creator?.username;
+    return this.thread?.initialPost?.creator?.username || "Deleted user";
   }
 
   get creationDate() {

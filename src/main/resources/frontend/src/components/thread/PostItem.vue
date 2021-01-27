@@ -2,14 +2,16 @@
   <div class="post">
     <div class="header row">
       <span>
-        Author: <span class="author">{{ post.creator.username }}</span>
+        Author: <span class="author">{{ creator }}</span>
       </span>
       <span>
         Created: <span class="created">{{ creationDate }}</span>
       </span>
     </div>
     <div class="content">
-      <p class="message" :class="{ warning: post.warning }">{{ post.content }}</p>
+      <p class="message" :class="{ warning: post.warning }">
+        {{ post.content }}
+      </p>
     </div>
   </div>
 </template>
@@ -22,6 +24,9 @@ class PostItem extends Vue {
   @Prop({ required: true })
   post;
 
+  get creator() {
+    return this.post?.creator?.username || "Deleted user";
+  }
   get creationDate() {
     return new Date(this.post.created).toLocaleString();
   }
