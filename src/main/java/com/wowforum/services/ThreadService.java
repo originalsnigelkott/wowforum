@@ -37,7 +37,6 @@ public class ThreadService {
     return threadRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("thread", "id"));
   }
 
-//  TODO: test! works
   public Thread createThread(UUID forumId, ThreadCreateDto threadDto) {
     var creator = userDetailsService.getCurrentUser();
     if (creator == null) {
@@ -48,14 +47,12 @@ public class ThreadService {
 
     return threadRepository.save(thread);
   }
-//  TODO: test! works
   public void deleteThread(UUID id) {
     var thread = getThreadById(id);
     checkPermissions(thread.getForum().getId());
     threadRepository.delete(thread);
   }
 
-  //  TODO: test! works
   public void updateThread(UUID id, ThreadUpdateDto updateDto) {
     var thread = getThreadById(id);
     checkPermissions(thread.getForum().getId());
