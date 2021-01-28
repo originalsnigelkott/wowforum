@@ -1,12 +1,21 @@
 <template>
   <div class="post">
-    <div class="header row">
+    <div class="header row center-y">
       <span>
         Author: <span class="author">{{ creator }}</span>
       </span>
-      <span>
-        Created: <span class="created">{{ creationDate }}</span>
-      </span>
+      <div class="row center-y">
+        <span>
+          Created: <span class="created">{{ creationDate }}</span>
+        </span>
+        <DeleteIcon
+          v-if="isDeletable"
+          title="Delete forum"
+          fillColor="#FF0000"
+          class="delete-btn pointer"
+          @click="removePost()"
+        ></DeleteIcon>
+      </div>
     </div>
     <div class="content">
       <p class="message" :class="{ warning: post.warning }">
@@ -18,6 +27,8 @@
 
 <script>
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { BASE_VERSION_URL } from "@/app-strings";
+import { hasModerationRights, fetchWithCredentials } from "@/utils";
 
 @Component()
 class PostItem extends Vue {
@@ -29,6 +40,26 @@ class PostItem extends Vue {
   }
   get creationDate() {
     return new Date(this.post.created).toLocaleString();
+  }
+  get isDeletable() {
+    const state = this.$store.state;
+    return (
+      hasModerationRights(state.thread?.forumId) &&
+      state.thread?.initialPost?.id !== this.post.id
+    );
+  }
+
+  async removePost() {
+    const id = this.post.id;
+    const response = await fetchWithCredentials(
+      `${BASE_VERSION_URL}/posts/${id}`,
+      {
+        method: "DELETE"
+      }
+    );
+    if (response.status === 204) {
+      this.$store.commit("removePost", id);
+    }
   }
 }
 
@@ -47,6 +78,9 @@ export default PostItem;
     .created {
       font-weight: bold;
       color: turquoise;
+    }
+    .delete-btn {
+      margin-left: 8px;
     }
   }
   .content {

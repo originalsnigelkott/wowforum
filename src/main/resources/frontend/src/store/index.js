@@ -12,7 +12,7 @@ export default new Vuex.Store({
     forum: {},
     forums: [],
     thread: {},
-    userResults: [],
+    userResults: []
   },
   mutations: {
     setCurrentUser(state, data) {
@@ -80,6 +80,9 @@ export default new Vuex.Store({
     deleteUser(state, data) {
       state.userResults = state.userResults.filter((user) => user.id !== data);
     },
+    removePost(state, id) {
+      state.thread.posts = state.thread.posts.filter((post) => post.id !== id);
+    }
   },
   actions: {
     async getCurrentUser({ commit }) {
@@ -144,7 +147,7 @@ export default new Vuex.Store({
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(payload)
         }
       );
       if (response.status === 201) {
@@ -160,7 +163,7 @@ export default new Vuex.Store({
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(payload)
         }
       );
       if (response.status === 201) {
@@ -174,7 +177,7 @@ export default new Vuex.Store({
       const response = await fetchWithCredentials(
         `${BASE_VERSION_URL}/forums/${forumId}`,
         {
-          method: "DELETE",
+          method: "DELETE"
         }
       );
       if (response.status === 204) {
@@ -187,7 +190,7 @@ export default new Vuex.Store({
       const response = await fetchWithCredentials(
         `${BASE_VERSION_URL}/threads/${ids.threadId}`,
         {
-          method: "DELETE",
+          method: "DELETE"
         }
       );
       if (response.status === 204) {
@@ -198,7 +201,7 @@ export default new Vuex.Store({
       const response = await fetchWithCredentials(
         `${BASE_VERSION_URL}/forums/${forumId}/moderators/${userId}`,
         {
-          method: "POST",
+          method: "POST"
         }
       );
       if (response.status === 204) {
@@ -211,7 +214,7 @@ export default new Vuex.Store({
       const response = await fetchWithCredentials(
         `${BASE_VERSION_URL}/forums/${forumId}/moderators/${userId}`,
         {
-          method: "DELETE",
+          method: "DELETE"
         }
       );
       if (response.status === 204) {
@@ -226,7 +229,7 @@ export default new Vuex.Store({
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(payload)
         }
       );
       if (response.status === 204) {
@@ -239,7 +242,7 @@ export default new Vuex.Store({
       const response = await fetchWithCredentials(
         `${BASE_VERSION_URL}/users/${userId}`,
         {
-          method: "DELETE",
+          method: "DELETE"
         }
       );
       if (response.status === 204) {
@@ -247,9 +250,9 @@ export default new Vuex.Store({
       } else {
         console.error("An error occured when trying to delete user.");
       }
-    },
+    }
   },
   getters: {
-    currentUser: (state) => state.currentUser,
-  },
+    currentUser: (state) => state.currentUser
+  }
 });
