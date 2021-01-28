@@ -55,4 +55,16 @@ public class PostService {
     post.setCreator(creator);
     return postRepository.save(post);
   }
+
+  public void deletePostById(UUID id) {
+    var post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("post", "id"));
+    var user = userDetailsService.getCurrentUser();
+    if(!threadService.hasPermissionToForum(user, post.getThread().getForum().getId())) {
+      throw new ForbiddenException("User lacks permissions to this forum.");
+    }
+    if (post.getThread().getInitialPost().equals(post)) {
+      throw new BadRequestException("Can not delete initial post. Delete thread instead.");
+    }
+    postRepository.delete(post);
+  }
 }
