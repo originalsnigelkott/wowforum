@@ -5,6 +5,7 @@ import com.wowforum.dtos.PostReadDto;
 import com.wowforum.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,5 +44,12 @@ public class PostController {
     var dto = new PostReadDto(createdPost);
     var uri = URI.create(ENDPOINT_NAME + createdPost.getId());
     return ResponseEntity.created(uri).body(dto);
+  }
+
+  @DeleteMapping("posts/{id}")
+  @Secured({"ROLE_ADMIN", "ROLE_MODERATOR"})
+  public ResponseEntity deletePostById(@PathVariable UUID id) {
+    postService.deletePostById(id);
+    return ResponseEntity.noContent().build();
   }
 }
